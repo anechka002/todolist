@@ -1,31 +1,38 @@
-import React from 'react'
-import { TaskType } from '../../App'
+import React, { useState } from 'react'
+import { FilterValuesType, TaskType } from '../../App'
 import Button from '../Button'
 
 type TodoListPropsType = {
   title: string
   tasks: TaskType[]
   date?: string
+  removeTask: (taskId: number) => void
+  changeFilter: (value: FilterValuesType) => void
 }
 
-function TodoList({title, tasks, date}: TodoListPropsType) {
+function TodoList(props: TodoListPropsType) {
   return (
     <div className='todolist'>
-    <h3>{title}</h3>
+    <h3>{props.title}</h3>
     <div>
       <input />
       <Button title={'+'}/>
     </div>
 
-    {tasks.length === 0 ? (
+    {props.tasks.length === 0 ? (
       <p>Тасок нет</p>
     ) : (
     <ul>
 
-      {tasks.map( (t) => {
+      {props.tasks.map( (t) => {
+        const removeTaskHandler = () => {
+          props.removeTask(t.id)
+        }
         return (
           <li key={t.id}>
-            <input type="checkbox" checked={t.isDone} /> <span>{t.title}</span>
+            <input type="checkbox" checked={t.isDone} /> 
+            <span>{t.title}</span>
+            <button onClick={removeTaskHandler}>x</button>
           </li>
         );
       })}
@@ -34,11 +41,11 @@ function TodoList({title, tasks, date}: TodoListPropsType) {
     )}
 
     <div>
-      <Button title={'All'}/>
-      <Button title={'Active'}/>
-      <Button title={'Completed'}/>
+      <Button changeFilter={() => {props.changeFilter('all')}} title={'All'}/>
+      <Button changeFilter={() => {props.changeFilter('active')}} title={'Active'}/>
+      <Button changeFilter={() => {props.changeFilter('completed')}} title={'Completed'}/>
     </div>
-    <div>{date}</div>
+    <div>{props.date}</div>
   </div>
   )
 }
