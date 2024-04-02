@@ -12,3 +12,10 @@
   background-color: #adcaf7;
   padding: 15px;
 }
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+  gap: 5px;
+}
