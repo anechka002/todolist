@@ -4,22 +4,26 @@ type ButtonPropsType = {
   title: string
   changeFilter?: () => void
   deleteAllTasks?: () => void
+  addTask?: () => void
+  disabled?: boolean
 }
 
-function Button({title, changeFilter, deleteAllTasks}: ButtonPropsType) {
+function Button({title, changeFilter, deleteAllTasks, addTask, disabled}: ButtonPropsType) {
 
   const onChangeFilterHandler = () => {
     if(changeFilter) {
       changeFilter()
     } else if (deleteAllTasks) {
       deleteAllTasks()  
+    } else if(addTask) {
+      addTask()
     } else {
       console.log('error')
     }
   }
 
   return (
-    <button onClick={onChangeFilterHandler}>{title}</button>
+    <button disabled={disabled} onClick={onChangeFilterHandler}>{title}</button>
   )
 }
 
