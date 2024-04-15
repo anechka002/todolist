@@ -2,28 +2,18 @@ import React from 'react';
 
 type ButtonPropsType = {
   title: string
-  changeFilter?: () => void
-  deleteAllTasks?: () => void
-  addTask?: () => void
+  callBack: () => void
   disabled?: boolean
 }
 
-function Button({title, changeFilter, deleteAllTasks, addTask, disabled}: ButtonPropsType) {
+function Button({title, callBack, disabled}: ButtonPropsType) {
 
-  const onChangeFilterHandler = () => {
-    if(changeFilter) {
-      changeFilter()
-    } else if (deleteAllTasks) {
-      deleteAllTasks()  
-    } else if(addTask) {
-      addTask()
-    } else {
-      console.log('error')
-    }
+  const onClickHandler = () => {
+    callBack()
   }
 
   return (
-    <button disabled={disabled} onClick={onChangeFilterHandler}>{title}</button>
+    <button disabled={disabled} onClick={onClickHandler}>{title}</button>
   )
 }
 
