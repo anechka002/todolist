@@ -24,10 +24,6 @@ function TodoList({
 
   const [newTaskTitle, setNewTaskTitle] = useState('')
 
-  const onClickAddTaskHandler = () => {
-    addTask(newTaskTitle)
-    setNewTaskTitle('')
-  }
 
   const isTitleTooLong = newTaskTitle.length > 15
   const ifTaskCanAdded = newTaskTitle && !isTitleTooLong
@@ -43,12 +39,30 @@ function TodoList({
     }
   }
 
+  const deleteAllTasksHandler = () => {
+    deleteAllTasks()
+  }
+
+  const onClickAddTaskHandler = () => {
+    addTask(newTaskTitle)
+    setNewTaskTitle('')
+  }
+
+  const changeFilterHandler = (value: FilterValuesType) => {
+    changeFilter(value)
+  }
+
+  const removeTaskHandler = (taskId: string) => {
+    removeTask(taskId)
+  }
+
+
   return (
     <div className='todolist'>
       <h3>{title}</h3>
       <div>
         <input value={newTaskTitle} onChange={onChangeSetTaskTitle} onKeyDown={onkeyDownAddTaskHandler} />
-        <Button disabled={!ifTaskCanAdded} addTask={onClickAddTaskHandler} title={'+'}/>
+        <Button disabled={!ifTaskCanAdded} callBack={onClickAddTaskHandler} title={'+'}/>
         {isTitleTooLong && <div>Stop!!!</div>}
       </div>
 
@@ -58,14 +72,14 @@ function TodoList({
       <ul>
 
         {tasks.map( (t) => {
-          const removeTaskHandler = () => {
-            removeTask(t.id)
-          }
+          // const removeTaskHandler = () => {
+          //   removeTask(t.id)
+          // }
           return (
             <li key={t.id}>
               <input type="checkbox" checked={t.isDone} /> 
               <span>{t.title}</span>
-              <button onClick={removeTaskHandler}>x</button>
+              <Button callBack={()=>removeTaskHandler(t.id)} title={'x'}/>
             </li>
           );
         })}
@@ -73,16 +87,16 @@ function TodoList({
       </ul>
       )}
 
-      <Button deleteAllTasks={deleteAllTasks} title={'DELETE ALL TASKS'}/>
+      <Button callBack={deleteAllTasksHandler} title={'DELETE ALL TASKS'}/>
 
       <div className='btn'>
-        <Button changeFilter={() => {changeFilter('all')}} title={'All'}/>
-        <Button changeFilter={() => {changeFilter('active')}} title={'Active'}/>
-        <Button changeFilter={() => {changeFilter('completed')}} title={'Completed'}/>
+        <Button callBack={() => {changeFilterHandler('all')}} title={'All'}/>
+        <Button callBack={() => {changeFilterHandler('active')}} title={'Active'}/>
+        <Button callBack={() => {changeFilterHandler('completed')}} title={'Completed'}/>
       </div>
       <div>{date}</div> 
     </div>
   )
 }
 
-export default TodoList
+export default TodoList;
