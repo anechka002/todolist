@@ -19,3 +19,14 @@
   margin: 5px 0;
   gap: 5px;
 }
+
+.task-input-error {
+  border: 2px solid red;
+  outline: none;
+  border-radius: 3px;
+}
+
+.task-input-error-message {
+  color: red
+}
+
