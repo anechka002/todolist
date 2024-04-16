@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 import TodoList from './components/todolist/TodoList';
-import { v1 } from 'uuid'
+import { v1 } from 'uuid';
 
+//Create +
+//Read + (filter, type, sort, search, pagination)
+//Update +
+//Delete +
 
 export type TaskType = {
   id: string
@@ -10,7 +14,7 @@ export type TaskType = {
   isDone: boolean
 }
 
-export type FilterValuesType = 'all' | 'active' | 'completed'
+export type FilterValuesType = 'all' | 'active' | 'completed' | 'delete'
 
 function App() {
 // BLL
@@ -67,6 +71,16 @@ function App() {
     setTasks([newTask, ...tasks])
   }
 
+  const changeStatus = (taskId: string, newIsDone: boolean) => {
+    // let task = tasks.find(t => t.id === taskId)
+    // if(task) {
+    //   task.isDone = newIsDone
+    //   setTasks([...tasks])
+    // }
+    const newState = tasks.map(t => t.id === taskId ? {...t, isDone: newIsDone} : t)
+    setTasks(newState)
+  }
+
   return (
     <div className="App">
       
@@ -78,7 +92,10 @@ function App() {
           changeFilter={changeFilter}
           deleteAllTasks={deleteAllTasks}
           addTask={addTask}
+          changeStatus={changeStatus}
+          filter={filter}
           />
+          
         {/* <TodoList title={'Songs'} tasks={tasks2}/>
         <TodoList title={'Bookings'} tasks={tasks3}/> */}
     
