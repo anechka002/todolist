@@ -1,20 +1,15 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React from 'react'
 
-type ButtonPropsType = {
+type Props = {
   title: string
-  callBack: () => void
-  disabled?: boolean
-}&ButtonHTMLAttributes<HTMLButtonElement>
+  onClick?: () => void
+  className?: string
+}
 
-function Button({title, callBack, disabled, ...restProps}: ButtonPropsType) {
-
-  const onClickHandler = () => {
-    callBack()
-  }
-
+function Button({title, onClick, className}: Props) {
   return (
-    <button {...restProps} disabled={disabled} onClick={onClickHandler}>{title}</button>
+    <button onClick={onClick} className={className}>{title}</button>
   )
 }
 
-export default Button;
+export default Button

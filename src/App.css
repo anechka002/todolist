@@ -1,32 +1,26 @@
+/* 
 .App {
   padding: 30px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
 }
 
-.todolist {
-  border: 1px solid #161515;
-  border-radius: 5px;
-  background-color: #adcaf7;
-  padding: 15px;
-}
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px 0;
-  gap: 5px;
+.App > div {
+  margin-right: 50px;
 }
 
-.task-input-error {
-  border: 2px solid red;
-  outline: none;
-  border-radius: 3px;
+.error {
+  border: red 1px solid;
 }
 
-.task-input-error-message {
-  color: red
+.error-message {
+  color: red;
 }
 
+.active-filter {
+  background-color: aquamarine;
+}
+
+.is-done {
+  opacity: 0.5;
+}
+ */
