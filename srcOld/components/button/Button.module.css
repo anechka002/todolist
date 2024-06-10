@@ -1,0 +1,16 @@
+.task {
+  font-weight: bold;
+}
+
+.taskDone {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.filterBtnActive {
+  background-color: #4195f5;
+  color: white;
+  font-weight: 700;
+  border: 2px #4195f5 solid;
+  border-radius: 3px;
+}
