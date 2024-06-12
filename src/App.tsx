@@ -3,9 +3,7 @@ import './App.css';
 import {v1} from 'uuid';
 import  {TodoList}  from './components/todos/TodoList';
 import { AddItemForm } from './components/itemForm/AddItemForm';
-import AppBar from '@mui/material/AppBar/AppBar';
-import { Box, Button, Container, CssBaseline, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
-import {Menu} from "@mui/icons-material";
+import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
 
@@ -30,7 +28,7 @@ function App() {
     let todoListId1 = v1();
     let todoListId2 = v1();
 
-    let [todolists, setTodolists] = useState<Array<TodolistsType>>([
+    let [todolists, setTodolists] = useState<TodolistsType[]>([
         {id: todoListId1, title: "What to learn", filter: "all"},
         {id: todoListId2, title: "What to buy", filter: "all"}
     ])

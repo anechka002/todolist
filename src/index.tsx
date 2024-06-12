@@ -3,6 +3,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createRoot } from 'react-dom/client';
+import AppWithReducer from './AppWithReducer';
 
 const container  = document.getElementById('root') as HTMLElement
 const root = createRoot(container);
