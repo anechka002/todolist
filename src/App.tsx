@@ -6,23 +6,7 @@ import { AddItemForm } from './components/itemForm/AddItemForm';
 import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
-
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistsType = { 
-    id: string, 
-    title: string, 
-    filter: FilterValuesType
-};
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type TasksStateType = {
-    [key: string]: TaskType[]
-}
-
-export type ThemeMode = 'dark' | 'light'
+import { FilterValuesType, TasksStateType, ThemeMode, TodolistsType } from './type/type';
 
 function App() {
     let todoListId1 = v1();

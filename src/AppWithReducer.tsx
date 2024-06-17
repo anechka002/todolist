@@ -8,23 +8,7 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
 import { addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer, updateTaskAC } from './model/task-reducer';
 import { addTodoListAC, changeTodoListFilterAC, removeTodoListAC, todoListsReducer, updateTodoListAC } from './model/todolist-reducer';
-
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistsType = { 
-    id: string, 
-    title: string, 
-    filter: FilterValuesType
-};
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type TasksStateType = {
-    [key: string]: TaskType[]
-}
-
-export type ThemeMode = 'dark' | 'light'
+import { FilterValuesType, ThemeMode } from './type/type';
 
 function AppWithReducer() {
     let todoListId1 = v1();
