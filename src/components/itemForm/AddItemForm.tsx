@@ -8,6 +8,7 @@ type Props = {
 }
 
 export function AddItemForm({addItem}:Props) {
+  // console.log('AddItemForm')
   const[newTitle, setNewTitle] = useState('')
   const[error, setError] = useState<string | null>(null)
 
@@ -24,7 +25,9 @@ export function AddItemForm({addItem}:Props) {
     setNewTitle(e.currentTarget.value)
   }
   const addItemOnKeyUpHandler = (e:KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
+    if(error !== null) {
+      setError(null)
+    }
     if(e.key === 'Enter') {
       addTaskHandler()
     }
