@@ -30,12 +30,12 @@ function AppWithReducer() {
     let todoListId1 = v1();
     let todoListId2 = v1();
 
-    let [todolists, dispatchTodoList] = useReducer(todoListsReducer,[
+    let [todolists, dispatchTodoLists] = useReducer(todoListsReducer,[
         {id: todoListId1, title: "What to learn", filter: "all"},
         {id: todoListId2, title: "What to buy", filter: "all"}
     ])
 
-    let [tasks, dispatch] = useReducer(tasksReducer, {
+    let [tasks, dispatchTasks] = useReducer(tasksReducer, {
         [todoListId1]: [
             { id: v1(), title: 'HTML&CSS', isDone: true },
             { id: v1(), title: 'JS', isDone: true },
@@ -48,39 +48,40 @@ function AppWithReducer() {
     })
 
     const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-        dispatchTodoList(changeTodoListFilterAC(todolistId, filter))
+        dispatchTodoLists(changeTodoListFilterAC(todolistId, filter))
     }
 
     const removeTask = (todolistId: string, id: string) => {
-        dispatch(removeTaskAC(todolistId, id))
+        dispatchTasks(removeTaskAC(todolistId, id))
     }
 
     const changeTaskStatus = (todolistId: string, id: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todolistId, id, isDone))
+        dispatchTasks(changeTaskStatusAC(todolistId, id, isDone))
     }
 
     const addTask = (todolistId: string, title: string) => {
-        dispatch(addTaskAC(todolistId, title))
+        dispatchTasks(addTaskAC(todolistId, title))
     }
 
     const removeTodoList = (todolistId: string) => {
-        dispatchTodoList(removeTodoListAC(todolistId))
-        dispatch(removeTodoListAC(todolistId))
+        const action = removeTodoListAC(todolistId)
+        dispatchTodoLists(action)
+        dispatchTasks(action)
     }
 
     const addTodoList = (title: string) => {
         const action = addTodoListAC(title)
         // const newTodoListId = v1()
-        dispatchTodoList(action)
-        dispatch(action)
+        dispatchTodoLists(action)
+        dispatchTasks(action)
     }
 
     const updateTask = (todolistId: string, id: string, title: string) => {
-        dispatch(updateTaskAC(todolistId, id, title))
+        dispatchTasks(updateTaskAC(todolistId, id, title))
     }
 
     const updateTodoList = (todolistId: string, title: string) => {
-        dispatchTodoList(updateTodoListAC(todolistId, title))
+        dispatchTodoLists(updateTodoListAC(todolistId, title))
     }
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
