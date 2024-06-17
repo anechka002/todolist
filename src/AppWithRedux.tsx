@@ -1,54 +1,23 @@
-import React, {useReducer, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {v1} from 'uuid';
 import  {TodoList}  from './components/todos/TodoList';
 import { AddItemForm } from './components/itemForm/AddItemForm';
 import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
-import { addTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer, updateTaskAC } from './model/task-reducer';
-import { addTodoListAC, changeTodoListFilterAC, removeTodoListAC, todoListsReducer, updateTodoListAC } from './model/todolist-reducer';
+import { addTodoListAC, changeTodoListFilterAC, removeTodoListAC, updateTodoListAC } from './model/todolist-reducer';
 import { useSelector } from 'react-redux';
 import { AppRootStateType } from './model/state/store';
 import { useDispatch } from 'react-redux';
-
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistsType = { 
-    id: string, 
-    title: string, 
-    filter: FilterValuesType
-};
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type TasksStateType = {
-    [key: string]: TaskType[]
-}
-
-export type ThemeMode = 'dark' | 'light'
+import { FilterValuesType, ThemeMode, TodolistsType } from './type/type';
 
 function AppWithRedux() {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     const dispatch = useDispatch()
 
     const changeFilter = (todolistId: string, filter: FilterValuesType) => {
         dispatch(changeTodoListFilterAC(todolistId, filter))
-    }
-
-    const removeTask = (todolistId: string, id: string) => {
-        dispatch(removeTaskAC(todolistId, id))
-    }
-
-    const changeTaskStatus = (todolistId: string, id: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todolistId, id, isDone))
-    }
-
-    const addTask = (todolistId: string, title: string) => {
-        dispatch(addTaskAC(todolistId, title))
     }
 
     const removeTodoList = (todolistId: string) => {
@@ -58,10 +27,6 @@ function AppWithRedux() {
     const addTodoList = (title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
-    }
-
-    const updateTask = (todolistId: string, id: string, title: string) => {
-        dispatch(updateTaskAC(todolistId, id, title))
     }
 
     const updateTodoList = (todolistId: string, title: string) => {
@@ -107,17 +72,12 @@ function AppWithRedux() {
                                     <Grid key={el.id} item>
                                         <Paper style={{padding: '10px'}}>
                                             <TodoList 
-                                                key={el.id}
-                                                tasks={tasks}
+                                                key={el.id}                                               
                                                 todolistId={el.id}
                                                 title={el.title}
                                                 filter={el.filter}
                                                 changeFilter={changeFilter}
-                                                removeTask={removeTask}
-                                                changeTaskStatus={changeTaskStatus}
-                                                addTask={addTask}
-                                                removeTodoList={removeTodoList}
-                                                updateTask={updateTask}
+                                                removeTodoList={removeTodoList}                                               
                                                 updateTodoList={updateTodoList}
                                             />
                                         </Paper>
