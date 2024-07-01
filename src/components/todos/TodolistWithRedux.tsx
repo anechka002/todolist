@@ -21,7 +21,7 @@ export function TodoListWithRedux({todolist}: Props) {
 
   let tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[id])
   const dispatch = useDispatch()
-  // console.log(tasks)
+  console.log(tasks)
 
   if(filter === 'active') {
     tasks = tasks.filter(el => el.isDone === false)
