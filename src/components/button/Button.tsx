@@ -1,15 +1,16 @@
-import React from 'react'
+// import React from 'react'
 
-type Props = {
-  title: string
-  onClick?: () => void
-  className?: string
-}
+// type Props = {
+//   title: string
+//   onClick?: () => void
+//   className?: string
+// }
 
-function Button({title, onClick, className}: Props) {
-  return (
-    <button onClick={onClick} className={className}>{title}</button>
-  )
-}
+// function Button({title, onClick, className}: Props) {
+//   return (
+//     <button onClick={onClick} className={className}>{title}</button>
+//   )
+// }
 
-export default Button
+// export default Button
+export default {}

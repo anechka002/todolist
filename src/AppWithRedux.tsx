@@ -7,33 +7,35 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
 import { addTodoListAC, changeTodoListFilterAC, removeTodoListAC, updateTodoListAC } from './model/todolist-reducer';
 import { useSelector } from 'react-redux';
-import { AppRootStateType } from './model/state/store';
+import { RootReducerType } from './model/state/store';
 import { useDispatch } from 'react-redux';
 import { FilterValuesType, ThemeMode, TodolistsType } from './type/type';
+import { TodoListWithRedux } from './components/todos/TodolistWithRedux';
 
 function AppWithRedux() {
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistsType>>(state => state.todolists)
+    const todolists = useSelector<RootReducerType, Array<TodolistsType>>(state => state.todolists)
     const dispatch = useDispatch()
 
-    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-        dispatch(changeTodoListFilterAC(todolistId, filter))
-    }
+    // const changeFilter = (todolistId: string, filter: FilterValuesType) => {
+    //     dispatch(changeTodoListFilterAC(todolistId, filter))
+    // }
 
-    const removeTodoList = (todolistId: string) => {
-        dispatch(removeTodoListAC(todolistId))
-    }
+    // const removeTodoList = (todolistId: string) => {
+    //     dispatch(removeTodoListAC(todolistId))
+    // }
 
     const addTodoList = (title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
     }
 
-    const updateTodoList = (todolistId: string, title: string) => {
-        dispatch(updateTodoListAC(todolistId, title))
-    }
+    // const updateTodoList = (todolistId: string, title: string) => {
+    //     dispatch(updateTodoListAC(todolistId, title))
+    // }
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
+
     const changeModeHandler = () => {
         setThemeMode(themeMode == 'light' ? 'dark' : 'light')
     }
@@ -71,14 +73,8 @@ function AppWithRedux() {
                                 return (
                                     <Grid key={el.id} item>
                                         <Paper style={{padding: '10px'}}>
-                                            <TodoList 
-                                                key={el.id}                                               
-                                                todolistId={el.id}
-                                                title={el.title}
-                                                filter={el.filter}
-                                                changeFilter={changeFilter}
-                                                removeTodoList={removeTodoList}                                               
-                                                updateTodoList={updateTodoList}
+                                            <TodoListWithRedux
+                                                todolist={el}
                                             />
                                         </Paper>
                                     </Grid>
