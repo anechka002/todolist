@@ -8,46 +8,43 @@ import { useDispatch } from 'react-redux'
 import { RootReducerType } from '../../model/state/store'
 import { useSelector } from 'react-redux'
 import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC } from '../../model/task-reducer'
-import { FilterValuesType, TaskType } from '../../type/type'
+import { TaskType, TodolistsType } from '../../type/type'
+import { changeTodoListFilterAC, removeTodoListAC, updateTodoListAC } from '../../model/todolist-reducer'
 
 type Props = {
-  todolistId: string
-  title: string
-  filter: FilterValuesType
-  changeFilter: (todolistId: string, filter: FilterValuesType) => void
-  removeTodoList: (todolistId: string) => void
-  updateTodoList: (todolistId: string, title: string) => void
+  todolist: TodolistsType
 }
 
-export function TodoList({todolistId, title, filter, changeFilter, removeTodoList, updateTodoList}: Props) {
+export function TodoListWithRedux({todolist}: Props) {
 
-  const tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[todolistId])
+  const {id, title, filter} = todolist
+
+  let tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[id])
   const dispatch = useDispatch()
   // console.log(tasks)
 
-  let currentFilter = tasks;
   if(filter === 'active') {
-    currentFilter = tasks.filter(el => el.isDone === false)
+    tasks = tasks.filter(el => el.isDone === false)
   }
   if(filter === 'completed') {
-    currentFilter = tasks.filter(el => el.isDone === true)
+    tasks = tasks.filter(el => el.isDone === true)
   }
 
   const addTaskHandler = (newTitle: string) => {
-    dispatch(addTaskAC(todolistId, newTitle))
+    dispatch(addTaskAC(id, newTitle))
   }
 
   const removeTodoListHandler = () => {
-    removeTodoList(todolistId)
+    dispatch(removeTodoListAC(id))
   }
 
   const updateTodoListHandler = (newTitle: string) => {
-    updateTodoList(todolistId, newTitle)
+    dispatch(updateTodoListAC(id, newTitle))
   }
 
-  const onAllClickHandler = () => changeFilter(todolistId, 'all');
-  const onActiveClickHandler = () => changeFilter(todolistId, 'active');
-  const onCompletedClickHandler = () => changeFilter(todolistId, 'completed');
+  const onAllClickHandler = () => dispatch(changeTodoListFilterAC(id, 'all'));
+  const onActiveClickHandler = () => dispatch(changeTodoListFilterAC(id, 'active'));
+  const onCompletedClickHandler = () => dispatch(changeTodoListFilterAC(id, 'completed'));
   
   return (
     <div>
@@ -58,13 +55,13 @@ export function TodoList({todolistId, title, filter, changeFilter, removeTodoLis
       </h3>
       <AddItemForm addItem={addTaskHandler}/>
       <div>
-        {currentFilter.map(el => {
-          const onClickHandler = () => dispatch(removeTaskAC(todolistId, el.id))
+        {tasks.map(el => {
+          const onClickHandler = () => dispatch(removeTaskAC(id, el.id))
           const onChangeTaskStatusHandler = ( e:ChangeEvent<HTMLInputElement>) => {
-            dispatch(changeTaskStatusAC(todolistId, el.id, e.currentTarget.checked))
+            dispatch(changeTaskStatusAC(id, el.id, e.currentTarget.checked))
           }
           const updateTaskHandler = (newTitle: string) => {
-            dispatch(updateTaskAC(todolistId, el.id, newTitle))
+            dispatch(updateTaskAC(id, el.id, newTitle))
           }
           return (
             <div key={el.id} className={el.isDone ? 'is-done' : ''}>
