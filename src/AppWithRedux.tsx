@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useCallback, useMemo, useState} from 'react';
 import './App.css';
 import  {TodoList}  from './components/todos/TodoList';
 import { AddItemForm } from './components/itemForm/AddItemForm';
@@ -17,6 +17,8 @@ function AppWithRedux() {
     const todolists = useSelector<RootReducerType, Array<TodolistsType>>(state => state.todolists)
     const dispatch = useDispatch()
 
+    // console.log('Apppppp')
+
     // const changeFilter = (todolistId: string, filter: FilterValuesType) => {
     //     dispatch(changeTodoListFilterAC(todolistId, filter))
     // }
@@ -25,10 +27,10 @@ function AppWithRedux() {
     //     dispatch(removeTodoListAC(todolistId))
     // }
 
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
-    }
+    }, [dispatch])
 
     // const updateTodoList = (todolistId: string, title: string) => {
     //     dispatch(updateTodoListAC(todolistId, title))
@@ -54,9 +56,10 @@ function AppWithRedux() {
             }
         }
     })
+    const memoizedTheme = useMemo(() => theme, [themeMode])
     return (
         <div className="App">
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={memoizedTheme}>
                 <CssBaseline/>
                 <Box sx={{flexGrow: 1, mb: 10}}>
                     <AppBarHeader changeModeHandler={changeModeHandler}/>

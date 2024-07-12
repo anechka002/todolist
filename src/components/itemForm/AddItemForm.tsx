@@ -1,13 +1,13 @@
 import { AddBox } from '@mui/icons-material'
 import { Box, IconButton, TextField } from '@mui/material'
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, memo, useState } from 'react'
 import { filterButtonsContainerSx } from '../todos/TodoList.style'
 
 type Props = {
   addItem: (newTitle: string) => void
 }
 
-export function AddItemForm({addItem}:Props) {
+export const AddItemForm = memo(({addItem}:Props) => {
   // console.log('AddItemForm')
   const[newTitle, setNewTitle] = useState('')
   const[error, setError] = useState<string | null>(null)
@@ -51,4 +51,4 @@ export function AddItemForm({addItem}:Props) {
       </IconButton>
     </Box>
   )
-}
+})
