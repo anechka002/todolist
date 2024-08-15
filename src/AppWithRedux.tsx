@@ -13,7 +13,7 @@ import { FilterValuesType, ThemeMode, TodolistsType } from './type/type';
 import { TodoListWithRedux } from './components/todos/TodolistWithRedux';
 
 function AppWithRedux() {
-
+    console.log('Hello')
     const todolists = useSelector<RootReducerType, Array<TodolistsType>>(state => state.todolists)
     const dispatch = useDispatch()
 
@@ -39,7 +39,7 @@ function AppWithRedux() {
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
     const changeModeHandler = () => {
-        setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+        setThemeMode(themeMode === 'light' ? 'dark' : 'light')
     }
     const theme = createTheme({
         palette: {
