@@ -11,7 +11,7 @@ import { RootReducerType } from './model/state/store';
 import { useDispatch } from 'react-redux';
 import { FilterValuesType, ThemeMode, TodolistsType } from './type/type';
 import { TodoListWithRedux } from './components/todos/TodolistWithRedux';
-// test 2
+// test 23
 function AppWithRedux() {
 
     const todolists = useSelector<RootReducerType, Array<TodolistsType>>(state => state.todolists)
