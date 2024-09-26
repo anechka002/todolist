@@ -17,11 +17,6 @@ export function EditableSpan({oldTitle, updateItem}: Props) {
       setEditMode(!editMode)
   }
 
-  // const deactivateEditModeHandler = () => {
-  //   setEditMode(false)
-  //   updateItem(newTitle)
-  // }
-
   const changeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.currentTarget.value)
   }

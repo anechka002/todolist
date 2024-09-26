@@ -1,40 +1,26 @@
-import React, {memo, useCallback, useMemo, useState} from 'react';
+import React, { useCallback, useMemo, useState} from 'react';
 import './App.css';
-import  {TodoList}  from './components/todos/TodoList';
 import { AddItemForm } from './components/itemForm/AddItemForm';
 import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
-import { addTodoListAC, changeTodoListFilterAC, removeTodoListAC, updateTodoListAC } from './model/todolist-reducer';
+import { addTodoListAC } from './model/todolist-reducer';
 import { useSelector } from 'react-redux';
 import { RootReducerType } from './model/state/store';
 import { useDispatch } from 'react-redux';
-import { FilterValuesType, ThemeMode, TodolistsType } from './type/type';
+import { ThemeMode, TodolistsType } from './type/type';
 import { TodoListWithRedux } from './components/todos/TodolistWithRedux';
 
 function AppWithRedux() {
 
     const todolists = useSelector<RootReducerType, Array<TodolistsType>>(state => state.todolists)
+    
     const dispatch = useDispatch()
-
-    // console.log('Apppppp')
-
-    // const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-    //     dispatch(changeTodoListFilterAC(todolistId, filter))
-    // }
-
-    // const removeTodoList = (todolistId: string) => {
-    //     dispatch(removeTodoListAC(todolistId))
-    // }
 
     const addTodoList = useCallback((title: string) => {
         const action = addTodoListAC(title)
         dispatch(action)
     }, [dispatch])
-
-    // const updateTodoList = (todolistId: string, title: string) => {
-    //     dispatch(updateTodoListAC(todolistId, title))
-    // }
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
