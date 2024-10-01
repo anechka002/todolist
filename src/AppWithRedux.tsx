@@ -4,16 +4,16 @@ import { AddItemForm } from './components/itemForm/AddItemForm';
 import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
-import { addTodoListAC } from './model/todolist-reducer';
+import { addTodoListAC, TodoListDomainType } from './model/todolist-reducer';
 import { useSelector } from 'react-redux';
 import { RootReducerType } from './model/state/store';
 import { useDispatch } from 'react-redux';
-import { ThemeMode, TodolistsType } from './type/type';
+import { ThemeMode} from './type/type';
 import { TodoListWithRedux } from './components/todos/TodolistWithRedux';
 
 function AppWithRedux() {
 
-    const todolists = useSelector<RootReducerType, Array<TodolistsType>>(state => state.todolists)
+    const todolists = useSelector<RootReducerType, Array<TodoListDomainType>>(state => state.todolists)
     
     const dispatch = useDispatch()
 

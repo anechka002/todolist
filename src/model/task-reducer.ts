@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
 import { AddTodoListsActionType, RemoveTodoListsActionType } from "./todolist-reducer";
 import { TasksStateType } from "../type/type";
+import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolists-api";
 
 const initialState: TasksStateType = {}
 
@@ -17,10 +18,10 @@ export const tasksReducer = (state = initialState, action: ActionsType): TasksSt
       const deleteTask = {...state, [action.todoListId]: state[action.todoListId].filter(el => el.id !== action.id)}
       return deleteTask
     case 'ADD-TASK':
-      const newTask = {id: v1(), title: action.title, isDone: false}
+      const newTask : TaskType = {id: v1(), title: action.title, status: TaskStatuses.New, todoListId: action.todoListId, description: '', startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
       return {...state, [action.todoListId]: [newTask, ...state[action.todoListId]]}
     case 'CHANGE-TASK-STATUS':     
-      return {...state, [action.todoListId]: state[action.todoListId].map(el => el.id === action.id ? {...el, isDone: action.isDone} : el)}
+      return {...state, [action.todoListId]: state[action.todoListId].map(el => el.id === action.id ? {...el, status: action.status} : el)}
     case 'UPDATE-TASK':
       return {...state, [action.todoListId]: state[action.todoListId].map(el => el.id === action.id ? {...el, title: action.title} : el)}
     case 'ADD-TODOLIST':
@@ -44,8 +45,8 @@ export const addTaskAC = (todoListId: string, title: string) => {
   return {type: 'ADD-TASK', todoListId, title} as const
 }
 
-export const changeTaskStatusAC = (todoListId: string, id: string, isDone: boolean) => {
-  return {type: 'CHANGE-TASK-STATUS', todoListId, id, isDone} as const
+export const changeTaskStatusAC = (todoListId: string, id: string, status: TaskStatuses) => {
+  return {type: 'CHANGE-TASK-STATUS', todoListId, id, status} as const
 }
 
 export const updateTaskAC = (todoListId: string, id: string, title: string) => {

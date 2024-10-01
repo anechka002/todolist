@@ -7,20 +7,18 @@ import { useDispatch } from 'react-redux'
 import { RootReducerType } from '../../model/state/store'
 import { useSelector } from 'react-redux'
 import { addTaskAC } from '../../model/task-reducer'
-import { TaskType, TodolistsType } from '../../type/type'
-import { changeTodoListFilterAC, removeTodoListAC, updateTodoListAC } from '../../model/todolist-reducer'
+import { changeTodoListFilterAC, removeTodoListAC, TodoListDomainType, updateTodoListAC } from '../../model/todolist-reducer'
 import { ButtonWithMemo } from '../button/ButtonWithMemo'
 import { Task } from '../task/Task'
-
+import { TaskStatuses, TaskType } from '../../api/todolists-api'
 
 type Props = {
-  todolist: TodolistsType
+  todolist: TodoListDomainType
 }
 
 export const TodoListWithRedux = memo(({todolist}: Props) =>  {
-  // console.log('TodoListWithRedux')
 
-  const {id, title, filter} = todolist
+  const {id, title, filter, addedDate, order} = todolist
 
   let tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[id])
   const dispatch = useDispatch()
@@ -42,13 +40,12 @@ export const TodoListWithRedux = memo(({todolist}: Props) =>  {
   const onCompletedClickHandler = useCallback(() => {dispatch(changeTodoListFilterAC(id, 'completed'))}, [dispatch]);
 
   tasks = useMemo( () => {
-    // console.log('useMemo')
 
     if(filter === 'active') {
-      tasks = tasks.filter(el => el.isDone === false)
+      tasks = tasks.filter(el => el.status === TaskStatuses.New)
     }
     if(filter === 'completed') {
-      tasks = tasks.filter(el => el.isDone === true)
+      tasks = tasks.filter(el => el.status === TaskStatuses.Completed)
     }
 
     return tasks

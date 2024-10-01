@@ -8,7 +8,8 @@ import { useDispatch } from 'react-redux'
 import { RootReducerType } from '../../model/state/store'
 import { useSelector } from 'react-redux'
 import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC } from '../../model/task-reducer'
-import { FilterValuesType, TaskType } from '../../type/type'
+import { FilterValuesType } from '../../model/todolist-reducer'
+import { TaskStatuses, TaskType } from '../../api/todolists-api'
 
 type Props = {
   todolistId: string
@@ -23,14 +24,13 @@ export function TodoList({todolistId, title, filter, changeFilter, removeTodoLis
 
   const tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[todolistId])
   const dispatch = useDispatch()
-  // console.log(tasks)
 
   let currentFilter = tasks;
   if(filter === 'active') {
-    currentFilter = tasks.filter(el => el.isDone === false)
+    currentFilter = tasks.filter(el => el.status === TaskStatuses.New)
   }
   if(filter === 'completed') {
-    currentFilter = tasks.filter(el => el.isDone === true)
+    currentFilter = tasks.filter(el => el.status === TaskStatuses.Completed)
   }
 
   const addTaskHandler = (newTitle: string) => {
@@ -61,15 +61,16 @@ export function TodoList({todolistId, title, filter, changeFilter, removeTodoLis
         {currentFilter.map(el => {
           const onClickHandler = () => dispatch(removeTaskAC(todolistId, el.id))
           const onChangeTaskStatusHandler = ( e:ChangeEvent<HTMLInputElement>) => {
-            dispatch(changeTaskStatusAC(todolistId, el.id, e.currentTarget.checked))
+            let newIsDoneValue = e.currentTarget.checked
+            dispatch(changeTaskStatusAC(todolistId, el.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))
           }
           const updateTaskHandler = (newTitle: string) => {
             dispatch(updateTaskAC(todolistId, el.id, newTitle))
           }
           return (
-            <div key={el.id} className={el.isDone ? 'is-done' : ''}>
+            <div key={el.id} className={el.status === TaskStatuses.Completed ? 'is-done' : ''}>
               <Checkbox
-                checked={el.isDone}
+                checked={el.status === TaskStatuses.Completed}
                 onChange={onChangeTaskStatusHandler}
                 color='primary'
               />
