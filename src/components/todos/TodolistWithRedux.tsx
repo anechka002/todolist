@@ -63,7 +63,7 @@ export const TodoListWithRedux = memo(({todolist}: Props) =>  {
       <AddItemForm addItem={addTaskHandler}/>
       <div>
         {
-        tasks.map(el => <Task key={el.id} taskId={el.id} todolistId={id}/>
+        tasks?.map(el => <Task key={el.id} taskId={el.id} todolistId={id}/>
         )}
       </div>      
       <div>
