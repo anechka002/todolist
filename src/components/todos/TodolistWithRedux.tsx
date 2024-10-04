@@ -3,14 +3,14 @@ import { EditableSpan } from '../span/EditableSpan'
 import { AddItemForm } from '../itemForm/AddItemForm'
 import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
-import { useDispatch } from 'react-redux'
-import { RootReducerType } from '../../model/state/store'
+import { AppRootStateType } from '../../model/state/store'
 import { useSelector } from 'react-redux'
 import { addTaskAC } from '../../model/task-reducer'
 import { changeTodoListFilterAC, removeTodoListAC, TodoListDomainType, updateTodoListAC } from '../../model/todolist-reducer'
 import { ButtonWithMemo } from '../button/ButtonWithMemo'
 import { Task } from '../task/Task'
 import { TaskStatuses, TaskType } from '../../api/todolists-api'
+import { useAppDispatch } from '../../hooks/hooks'
 
 type Props = {
   todolist: TodoListDomainType
@@ -20,8 +20,8 @@ export const TodoListWithRedux = memo(({todolist}: Props) =>  {
 
   const {id, title, filter, addedDate, order} = todolist
 
-  let tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[id])
-  const dispatch = useDispatch()
+  let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[id])
+  const dispatch = useAppDispatch()
 
   const addTaskHandler = useCallback((newTitle: string) => {
     dispatch(addTaskAC(id, newTitle))

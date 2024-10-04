@@ -4,19 +4,18 @@ import { AddItemForm } from './components/itemForm/AddItemForm';
 import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
-import { addTodoListAC, setTodoListsAC, TodoListDomainType } from './model/todolist-reducer';
+import { addTodoListAC, getTodosTC, TodoListDomainType } from './model/todolist-reducer';
 import { useSelector } from 'react-redux';
-import { RootReducerType } from './model/state/store';
-import { useDispatch } from 'react-redux';
+import { AppRootStateType } from './model/state/store';
 import { ThemeMode} from './type/type';
 import { TodoListWithRedux } from './components/todos/TodolistWithRedux';
-import { todoListsAPI } from './api/todolists-api';
+import { useAppDispatch } from './hooks/hooks';
 
 function AppWithRedux() {
 
-    const todolists = useSelector<RootReducerType, Array<TodoListDomainType>>(state => state.todolists)
+    const todolists = useSelector<AppRootStateType, Array<TodoListDomainType>>(state => state.todolists)
     
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const addTodoList = useCallback((title: string) => {
         const action = addTodoListAC(title)
@@ -46,9 +45,8 @@ function AppWithRedux() {
     const memoizedTheme = useMemo(() => theme, [themeMode])
 
     useEffect(() => {
-        todoListsAPI.getTodoLists()
-        .then((res) => dispatch(setTodoListsAC(res.data)))
-    }, [])
+        dispatch(getTodosTC)
+    }, []);
 
     return (
         <div className="App">

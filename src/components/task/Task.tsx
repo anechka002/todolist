@@ -5,8 +5,9 @@ import { changeTaskStatusAC, removeTaskAC, updateTaskAC } from '../../model/task
 import { EditableSpan } from '../span/EditableSpan'
 import { Delete } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
-import { RootReducerType } from '../../model/state/store'
+import { AppRootStateType } from '../../model/state/store'
 import { TaskStatuses, TaskType } from '../../api/todolists-api'
+import { useAppDispatch } from '../../hooks/hooks'
 
 type Props = {
   todolistId: string
@@ -14,8 +15,8 @@ type Props = {
 }
 
 export const Task = memo(({todolistId, taskId}: Props) => {
-  const task = useSelector<RootReducerType, TaskType>(state => state.tasks[todolistId].find(el => el.id === taskId) as TaskType)
-  const dispatch = useDispatch()
+  const task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todolistId].find(el => el.id === taskId) as TaskType)
+  const dispatch = useAppDispatch()
 
   const onClickHandler = () => dispatch(removeTaskAC(todolistId, task.id))
   const onChangeTaskStatusHandler = ( e:ChangeEvent<HTMLInputElement>) => {

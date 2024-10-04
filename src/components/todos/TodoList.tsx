@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import {Button, Checkbox} from "@mui/material";
 import { useDispatch } from 'react-redux'
-import { RootReducerType } from '../../model/state/store'
+import { AppRootStateType } from '../../model/state/store'
 import { useSelector } from 'react-redux'
 import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskAC } from '../../model/task-reducer'
 import { FilterValuesType } from '../../model/todolist-reducer'
@@ -22,7 +22,7 @@ type Props = {
 
 export function TodoList({todolistId, title, filter, changeFilter, removeTodoList, updateTodoList}: Props) {
 
-  const tasks = useSelector<RootReducerType, Array<TaskType>>(state => state.tasks[todolistId])
+  const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolistId])
   const dispatch = useDispatch()
 
   let currentFilter = tasks;
