@@ -1,7 +1,6 @@
 import { Checkbox, IconButton } from '@mui/material'
 import React, { ChangeEvent, memo } from 'react'
-import { useDispatch } from 'react-redux'
-import { changeTaskStatusAC, removeTaskAC, updateTaskAC } from '../../model/task-reducer'
+import { changeTaskStatusAC, removeTaskTC, updateTaskAC } from '../../model/task-reducer'
 import { EditableSpan } from '../span/EditableSpan'
 import { Delete } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
@@ -18,7 +17,7 @@ export const Task = memo(({todolistId, taskId}: Props) => {
   const task = useSelector<AppRootStateType, TaskType>(state => state.tasks[todolistId].find(el => el.id === taskId) as TaskType)
   const dispatch = useAppDispatch()
 
-  const onClickHandler = () => dispatch(removeTaskAC(todolistId, task.id))
+  const onClickHandler = () => dispatch(removeTaskTC(todolistId, task.id))
   const onChangeTaskStatusHandler = ( e:ChangeEvent<HTMLInputElement>) => {
     let newIsDoneValue = e.currentTarget.checked
     dispatch(changeTaskStatusAC(todolistId, task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New))
