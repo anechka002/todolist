@@ -4,7 +4,7 @@ import { AddItemForm } from './components/itemForm/AddItemForm';
 import { Box, Container, CssBaseline, Grid, Paper } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material";
 import AppBarHeader from './components/header/AppBarHeader';
-import { addTodoListAC, getTodosTC, TodoListDomainType } from './model/todolist-reducer';
+import { addTodoListAC, addTodoListTC, getTodosTC, TodoListDomainType } from './model/todolist-reducer';
 import { useSelector } from 'react-redux';
 import { AppRootStateType } from './model/state/store';
 import { ThemeMode} from './type/type';
@@ -18,8 +18,8 @@ function AppWithRedux() {
     const dispatch = useAppDispatch()
 
     const addTodoList = useCallback((title: string) => {
-        const action = addTodoListAC(title)
-        dispatch(action)
+        const thunk = addTodoListTC(title)
+        dispatch(thunk)
     }, [dispatch])
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('light')
