@@ -23,8 +23,11 @@ export const store = legacy_createStore(rootReducer, {}, applyMiddleware(thunk))
 
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>;
+
+// определить автоматически тип state от всего объекта состояния
 export type RootState = ReturnType<typeof store.getState>;
 
+// создаем тип dispatch который принимает как АС так и ТС
 export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент

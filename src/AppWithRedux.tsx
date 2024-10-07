@@ -45,7 +45,7 @@ function AppWithRedux() {
     const memoizedTheme = useMemo(() => theme, [themeMode])
 
     useEffect(() => {
-        dispatch(getTodosTC)
+        dispatch(getTodosTC())
     }, []);
 
     return (
