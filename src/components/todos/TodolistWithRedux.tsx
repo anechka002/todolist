@@ -6,7 +6,7 @@ import { Delete } from '@mui/icons-material'
 import { AppRootStateType } from '../../model/state/store'
 import { useSelector } from 'react-redux'
 import { addTaskTC, getTasksTC } from '../../model/task-reducer'
-import { changeTodoListFilterAC, removeTodoListAC, TodoListDomainType, updateTodoListAC } from '../../model/todolist-reducer'
+import { changeTodoListFilterAC, removeTodoListTC, TodoListDomainType, updateTodoListAC } from '../../model/todolist-reducer'
 import { ButtonWithMemo } from '../button/ButtonWithMemo'
 import { Task } from '../task/Task'
 import { TaskStatuses, TaskType } from '../../api/todolists-api'
@@ -32,7 +32,7 @@ export const TodoListWithRedux = memo(({todolist}: Props) =>  {
   }, [dispatch])
 
   const removeTodoListHandler = () => {
-    dispatch(removeTodoListAC(id))
+    dispatch(removeTodoListTC(id))
   }
 
   const updateTodoListHandler = (newTitle: string) => {

@@ -43,6 +43,8 @@ export const todoListsReducer = (state: Array<TodoListDomainType> = initialState
   }
 }
 
+// action
+
 export const removeTodoListAC = (todolistId: string) => {
   return { type: 'REMOVE-TODOLIST', id: todolistId} as const
 }
@@ -59,7 +61,14 @@ export const setTodoListsAC = (todos: TodoListType[]) => {
   return {type: 'SET-TODOLISTS', todos} as const
 }
 
+// thunk
+
 export const getTodosTC = () => (dispatch: Dispatch) => {
   todoListsAPI.getTodoLists()
     .then((res) => dispatch(setTodoListsAC(res.data)))
+}
+
+export const removeTodoListTC = (todolistId: string) => (dispatch: Dispatch) => {
+  todoListsAPI.deleteTodoList(todolistId)
+    .then((res) => dispatch(removeTodoListAC(todolistId)))
 }
