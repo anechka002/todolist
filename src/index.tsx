@@ -2,15 +2,15 @@ import React from 'react';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { createRoot } from 'react-dom/client';
-import AppWithRedux from './AppWithRedux';
 import { Provider } from 'react-redux';
-import { store } from './model/state/store';
+import { store } from './store/state/store';
+import App from './components/app/App';
 
-const container  = document.getElementById('root') as HTMLElement
+const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 root.render(
   <Provider store={store}>
-    <AppWithRedux />
+    <App />
   </Provider>
 );
 
@@ -18,4 +18,3 @@ root.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
