@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, compose, legacy_createStore, UnknownA
 import { tasksReducer } from "../task-reducer";
 import { todoListsReducer } from "../todolist-reducer";
 import {thunk, ThunkDispatch} from 'redux-thunk'
+import { appReducer } from "../../components/app/app-reducer";
 
 declare global {
   interface Window {
@@ -13,7 +14,8 @@ declare global {
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
   tasks: tasksReducer,
-  todolists: todoListsReducer
+  todolists: todoListsReducer,
+  app: appReducer
 })
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // {}, composeEnhancers(),
