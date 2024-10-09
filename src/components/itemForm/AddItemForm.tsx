@@ -5,10 +5,11 @@ import { filterButtonsContainerSx } from '../../features/todolistsList/todolist/
 
 type Props = {
   addItem: (newTitle: string) => void;
+  disabled?: boolean
 };
 
-export const AddItemForm = memo(({ addItem }: Props) => {
-  // console.log('AddItemForm')
+export const AddItemForm = memo(({ addItem, disabled }: Props) => {
+
   const [newTitle, setNewTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -45,8 +46,9 @@ export const AddItemForm = memo(({ addItem }: Props) => {
         onChange={changeItemTitleHandler}
         onKeyUp={addItemOnKeyUpHandler}
         helperText={error}
+        disabled={disabled}
       />
-      <IconButton color="primary" onClick={addTaskHandler}>
+      <IconButton color="primary" onClick={addTaskHandler} disabled={disabled}>
         <AddBox />
       </IconButton>
     </Box>

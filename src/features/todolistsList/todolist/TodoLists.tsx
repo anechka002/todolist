@@ -22,7 +22,7 @@ type Props = {
 };
 
 export const TodoList = memo(({ todolist }: Props) => {
-  const { id, title, filter, addedDate, order } = todolist;
+  const { id, title, filter, addedDate, order, entityStatus } = todolist;
 
   let tasks = useSelector<AppRootStateType, Array<TaskType>>(
     (state) => state.tasks[id]
@@ -72,12 +72,12 @@ export const TodoList = memo(({ todolist }: Props) => {
   return (
     <div>
       <h3>
-        <EditableSpan oldTitle={title} updateItem={updateTodoListHandler} />
-        <IconButton onClick={removeTodoListHandler}>
+        <EditableSpan oldTitle={title} updateItem={updateTodoListHandler} disabled={entityStatus === 'loading'} />
+        <IconButton onClick={removeTodoListHandler} disabled={entityStatus === 'loading'}>
           <Delete />
         </IconButton>
       </h3>
-      <AddItemForm addItem={addTaskHandler} />
+      <AddItemForm addItem={addTaskHandler} disabled={entityStatus === 'loading'}/>
       <div>
         {tasks.map((el) => (
           <Task key={el.id} taskId={el.id} todolistId={id} />
