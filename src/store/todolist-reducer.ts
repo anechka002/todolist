@@ -1,13 +1,14 @@
 import { todoListsAPI, TodoListType } from "../api/todolists-api";
 import { Dispatch } from "redux";
-import { RequestStatusType, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "../components/app/app-reducer";
+import { RequestStatusType, setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "../components/app/app-reducer";
+import { ResultCode } from "../common/enums";
 
 const initialState: Array<TodoListDomainType> = []
 
 export const todoListsReducer = (state: Array<TodoListDomainType> = initialState, action: ActionsType): Array<TodoListDomainType> => {
   switch(action.type) {
     case 'TODOLISTS/REMOVE-TODOLIST':
-      return state.filter(el => el.id != action.id)
+      return state.filter(el => el.id !== action.id)
     case 'TODOLISTS/ADD-TODOLIST':
       const newTodoList: TodoListDomainType = {...action.todoList, filter: 'all', entityStatus: 'loading'}
       return [newTodoList, ...state]
@@ -55,6 +56,10 @@ export const getTodosTC = () => (dispatch: Dispatch<ActionsType>) => {
       dispatch(setAppStatusAC('succeeded'))
       dispatch(setTodoListsAC(res.data))
     })
+    // .catch((err) => {
+    //   dispatch(setAppErrorAC(err.message))
+    //   dispatch(setAppStatusAC('failed'))
+    // })
 }
 
 export const removeTodoListTC = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -62,18 +67,41 @@ export const removeTodoListTC = (todolistId: string) => (dispatch: Dispatch<Acti
   dispatch(changeTodoListEntityStatusAC(todolistId, 'loading'))
   todoListsAPI.deleteTodoList(todolistId)
     .then((res) => {
-      dispatch(setAppStatusAC('succeeded'))
-      dispatch(removeTodoListAC(todolistId))
+
+      if(res.data.resultCode === ResultCode.Success) {
+        dispatch(removeTodoListAC(todolistId))
+        dispatch(setAppStatusAC('succeeded'))
+      } else {
+        dispatch(setAppErrorAC(res.data.messages[0]))
+        dispatch(setAppStatusAC('failed'))
+      }  
+
+    })
+    .catch((err) => {
+      dispatch(setAppErrorAC(err.message))
+      dispatch(setAppStatusAC('failed'))
     })
 }
 
-export const addTodoListTC = (title: string) => (dispatch: Dispatch<ActionsType>) => {
-  dispatch(setAppStatusAC('loading'))
-  todoListsAPI.createTodoLists(title)
-    .then((res) => {
-      dispatch(setAppStatusAC('succeeded'))
-      dispatch(addTodoListAC(res.data.data.item))
-    })
+export const addTodoListTC = (title: string) => {
+  return (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setAppStatusAC('loading'))
+    todoListsAPI.createTodoLists(title)
+      .then((res) => {
+        
+        if(res.data.resultCode === ResultCode.Success) {
+          dispatch(addTodoListAC(res.data.data.item))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error occurred'))
+          dispatch(setAppStatusAC('failed'))
+        }    
+      })
+      .catch((err) => {
+        dispatch(setAppErrorAC(err.message))
+        dispatch(setAppStatusAC('failed'))
+      })
+  }
 }
 
 export const updateTodoListTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -81,9 +109,20 @@ export const updateTodoListTC = (todolistId: string, title: string) => (dispatch
   dispatch(changeTodoListEntityStatusAC(todolistId, 'loading'))
   todoListsAPI.updateTodoList(todolistId, title)
     .then((res) => {
-      dispatch(setAppStatusAC('succeeded'))
-      dispatch(updateTodoListAC(todolistId, title))
-      dispatch(changeTodoListEntityStatusAC(todolistId, 'idle'))
+
+      if(res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC('succeeded'))
+        dispatch(updateTodoListAC(todolistId, title))
+        dispatch(changeTodoListEntityStatusAC(todolistId, 'idle'))
+      } else {
+        dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error occurred'))
+        dispatch(setAppStatusAC('failed'))
+      }   
+
+    })
+    .catch((err) => {
+      dispatch(setAppErrorAC(err.message))
+      dispatch(setAppStatusAC('failed'))
     })
 }
 

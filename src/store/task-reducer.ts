@@ -75,7 +75,6 @@ export const changeTaskEntityStatusAC = (todoListId: string, id: string, entityS
   return {type: 'TASKS/CHANGE-TASK-ENTITY-STATUS', todoListId, id, entityStatus} as const
 }
 
-
 // thunks
 export const getTasksTC = (todoListId: string) => (dispatch: Dispatch<ActionsType>) => {
   dispatch(setAppStatusAC('loading'))
@@ -98,6 +97,10 @@ export const addTaskTC = (todoListId: string, title: string) => (dispatch: Dispa
         dispatch(setAppStatusAC('failed'))
       }      
     })
+    .catch((err) => {
+      dispatch(setAppErrorAC(err.message))
+      dispatch(setAppStatusAC('failed'))
+    })
 }
 
 export const removeTaskTC = (todoListId: string, id: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -105,8 +108,19 @@ export const removeTaskTC = (todoListId: string, id: string) => (dispatch: Dispa
   dispatch(changeTaskEntityStatusAC(todoListId, id, 'loading'))
   todoListsAPI.deleteTask(todoListId, id)
     .then((res) => {
-      dispatch(setAppStatusAC('succeeded'))
-      dispatch(removeTaskAC(todoListId, id))
+
+      if(res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC('succeeded'))
+        dispatch(removeTaskAC(todoListId, id))
+      } else {
+        dispatch(setAppErrorAC(res.data.messages[0]))
+        dispatch(setAppStatusAC('failed'))
+      }    
+
+    })
+    .catch((err) => {
+      dispatch(setAppErrorAC(err.message))
+      dispatch(setAppStatusAC('failed'))
     })
 }
 
@@ -132,9 +146,20 @@ export const updateTaskTC = (todoListId: string, id: string, domainModel: Update
   dispatch(changeTaskEntityStatusAC(todoListId, id, 'loading'))
   todoListsAPI.updateTask(todoListId, id, apiModel)
     .then((res) => {
-      dispatch(setAppStatusAC('succeeded'))
-      dispatch(updateTaskAC(todoListId, id, domainModel))
-      dispatch(changeTaskEntityStatusAC(todoListId, id, 'idle'))
+      
+      if(res.data.resultCode === ResultCode.Success) {
+        dispatch(setAppStatusAC('succeeded'))
+        dispatch(updateTaskAC(todoListId, id, domainModel))
+        dispatch(changeTaskEntityStatusAC(todoListId, id, 'idle'))
+      } else {
+        dispatch(setAppErrorAC(res.data.messages[0]))
+        dispatch(setAppStatusAC('failed'))
+      }   
+
+    })
+    .catch((err) => {
+      dispatch(setAppErrorAC(err.message))
+      dispatch(setAppStatusAC('failed'))
     })
 }
 
