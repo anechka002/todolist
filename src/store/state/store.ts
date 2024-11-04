@@ -15,7 +15,7 @@ declare global {
 const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todoListsReducer,
-  app: appReducer
+  app: appReducer,
 })
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // {}, composeEnhancers(),
