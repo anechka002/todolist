@@ -5,14 +5,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from '@mui/material/Typography';
 import {MenuButton} from '../button/MenuButton';
 import { Switch } from '@mui/material';
-import { RequestThemeType, setAppThemeAC } from '../app/app-reducer';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { setAppThemeAC } from '../app/app-reducer';
+import { getTheme } from '../../common/theme';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function AppBarHeader() {
 
-  const themeMode = useAppSelector<RequestThemeType>(state => state.app.theme)
+  const themeMode = useAppSelector(state => state.app.theme)
 
   const dispatch = useAppDispatch()
+
+  const theme = getTheme(themeMode)
 
   const changeModeHandler = () => {
     dispatch(setAppThemeAC(themeMode === "light" ? "dark" : 'light'))
@@ -34,7 +38,7 @@ function AppBarHeader() {
           </Typography>
           <MenuButton color='inherit'>Login</MenuButton>
           <MenuButton color='inherit'>Logout</MenuButton>
-          <MenuButton color='inherit'>Faq</MenuButton>
+          <MenuButton background={theme.palette.primary.dark} color='inherit'>Faq</MenuButton>
           <Switch color='default'onChange={changeModeHandler}/>
       </Toolbar>
     </AppBar>

@@ -6,7 +6,7 @@ import { Delete } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { AppRootStateType } from '../../../../store/state/store';
 import { TaskStatuses } from '../../../../api/todolists-api';
-import { useAppDispatch } from '../../../../hooks/hooks';
+import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 
 type Props = {
   todolistId: string;

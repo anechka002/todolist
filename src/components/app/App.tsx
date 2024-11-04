@@ -5,15 +5,14 @@ import LinearProgress from '@mui/material/LinearProgress'
 import { ThemeProvider } from '@mui/material';
 import AppBarHeader from '../header/AppBarHeader';
 import { TodolistsList } from '../../features/todolistsList/TodolistsList';
-import { useAppSelector } from '../../hooks/hooks';
-import { RequestStatusType, RequestThemeType } from './app-reducer';
 import { ErrorSnackbar } from '../errorSnackbar/ErrorSnackbar';
 import { getTheme } from '../../common/theme';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 function App() {
 
-  const status = useAppSelector<RequestStatusType>(state => state.app.status)
-  const themeMode = useAppSelector<RequestThemeType>(state => state.app.theme)
+  const status = useAppSelector(state => state.app.status)
+  const themeMode = useAppSelector(state => state.app.theme)
 
   const memoizedTheme = useMemo(() => getTheme(themeMode), [themeMode]);
 

@@ -1,21 +1,20 @@
 import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 import {
   changeTodoListFilterAC,
   removeTodoListTC,
   TodoListDomainType,
   updateTodoListTC,
 } from '../../../store/todolist-reducer';
-import { AppRootStateType } from '../../../store/state/store';
-import { TaskStatuses, TaskType } from '../../../api/todolists-api';
+import { TaskStatuses } from '../../../api/todolists-api';
 import { addTaskTC, getTasksTC } from '../../../store/task-reducer';
-import { useAppDispatch } from '../../../hooks/hooks';
 import { EditableSpan } from '../../../components/span/EditableSpan';
 import { AddItemForm } from '../../../components/itemForm/AddItemForm';
 import { ButtonWithMemo } from '../../../components/button/ButtonWithMemo';
 import { Task } from './task/Task';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
 
 type Props = {
   todolist: TodoListDomainType;
@@ -24,7 +23,7 @@ type Props = {
 export const TodoList = memo(({ todolist }: Props) => {
   const { id, title, filter, addedDate, order, entityStatus } = todolist;
 
-  let tasks = useSelector<AppRootStateType, Array<TaskType>>(
+  let tasks = useAppSelector(
     (state) => state.tasks[id]
   );
   const dispatch = useAppDispatch();

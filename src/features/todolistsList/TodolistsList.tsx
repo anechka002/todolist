@@ -1,15 +1,14 @@
-import { useSelector } from "react-redux";
-import { AppRootStateType } from "../../store/state/store";
-import { addTodoListTC, getTodosTC, TodoListDomainType } from "../../store/todolist-reducer";
-import { useAppDispatch } from "../../hooks/hooks";
+import { addTodoListTC, getTodosTC } from "../../store/todolist-reducer";
 import { useCallback, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { AddItemForm } from "../../components/itemForm/AddItemForm";
 import Paper from "@mui/material/Paper";
 import { TodoList } from "./todolist/TodoLists";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 export const TodolistsList: React.FC = () => {
-  const todolists = useSelector<AppRootStateType, Array<TodoListDomainType>>(
+  const todolists = useAppSelector(
     (state) => state.todolists
   );
 

@@ -30,7 +30,8 @@ export type AppRootStateType = ReturnType<typeof rootReducer>;
 export type RootState = ReturnType<typeof store.getState>;
 
 // создаем тип dispatch который принимает как АС так и ТС
-export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
+// export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, UnknownAction>
+export type AppDispatch = typeof store.dispatch
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
