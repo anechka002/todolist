@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material'
 import React, { ChangeEvent, useState } from 'react'
-import '../../components/app/App.css'
+import '../../../app/App.css'
 
 type Props = {
   oldTitle: string

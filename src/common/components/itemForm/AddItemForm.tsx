@@ -1,7 +1,6 @@
 import { AddBox } from '@mui/icons-material';
-import { Box, IconButton, TextField } from '@mui/material';
+import { IconButton, TextField } from '@mui/material';
 import React, { ChangeEvent, KeyboardEvent, memo, useState } from 'react';
-import { filterButtonsContainerSx } from '../../features/todolistsList/todolist/TodoList.style';
 
 type Props = {
   addItem: (newTitle: string) => void;
@@ -35,7 +34,7 @@ export const AddItemForm = memo(({ addItem, disabled }: Props) => {
   };
 
   return (
-    <Box sx={filterButtonsContainerSx}>
+    <div>
       <TextField
         id="outlined-basic"
         label="Title"
@@ -51,6 +50,6 @@ export const AddItemForm = memo(({ addItem, disabled }: Props) => {
       <IconButton color="primary" onClick={addTaskHandler} disabled={disabled}>
         <AddBox />
       </IconButton>
-    </Box>
+    </div>
   );
 });

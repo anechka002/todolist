@@ -1,7 +1,7 @@
-import { todoListsAPI, TodoListType } from "../api/todolists-api";
 import { Dispatch } from "redux";
-import { RequestStatusType, setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "../components/app/app-reducer";
-import { ResultCode } from "../common/enums";
+import { todoListsAPI, TodoListType } from "../../../api/todolists-api";
+import { RequestStatusType, setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "../../../app/app-reducer";
+import { ResultCode } from "../../../common/enums";
 
 const initialState: Array<TodoListDomainType> = []
 

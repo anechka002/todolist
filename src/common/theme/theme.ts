@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { RequestThemeType } from "../components/app/app-reducer";
+import { RequestThemeType } from "../../app/app-reducer";
 
 export const getTheme = (themeMode: RequestThemeType) => createTheme({
   palette: {

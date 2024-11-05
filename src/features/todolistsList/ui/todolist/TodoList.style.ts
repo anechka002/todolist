@@ -1,7 +1,3 @@
-export const filterButtonsContainerSx = {
-  display: 'flex',
-  justifyContent: 'space-between'
-}
 export const getListItemSx=(isDone:boolean) => ({
   p: 0,
   justifyContent: 'space-between',

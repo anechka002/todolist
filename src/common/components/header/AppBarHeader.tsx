@@ -5,14 +5,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from '@mui/material/Typography';
 import {MenuButton} from '../button/MenuButton';
 import { Switch } from '@mui/material';
-import { setAppThemeAC } from '../app/app-reducer';
-import { getTheme } from '../../common/theme';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { getTheme } from '../../theme/theme';
+import { setAppThemeAC } from '../../../app/app-reducer';
+import { selectThemeMode } from '../../../app/appSelectors';
 
 function AppBarHeader() {
 
-  const themeMode = useAppSelector(state => state.app.theme)
+  const themeMode = useAppSelector(selectThemeMode)
 
   const dispatch = useAppDispatch()
 

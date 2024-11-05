@@ -3,16 +3,17 @@ import './App.css';
 import { Box, Container, CssBaseline } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress'
 import { ThemeProvider } from '@mui/material';
-import AppBarHeader from '../header/AppBarHeader';
-import { TodolistsList } from '../../features/todolistsList/TodolistsList';
-import { ErrorSnackbar } from '../errorSnackbar/ErrorSnackbar';
-import { getTheme } from '../../common/theme';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../common/hooks/useAppSelector';
+import { getTheme } from '../common/theme/theme';
+import { ErrorSnackbar } from '../common/components/errorSnackbar/ErrorSnackbar';
+import AppBarHeader from '../common/components/header/AppBarHeader';
+import { TodolistsList } from '../features/todolistsList/TodolistsList';
+import { selectStatus, selectThemeMode } from './appSelectors';
 
 function App() {
 
-  const status = useAppSelector(state => state.app.status)
-  const themeMode = useAppSelector(state => state.app.theme)
+  const status = useAppSelector(selectStatus)
+  const themeMode = useAppSelector(selectThemeMode)
 
   const memoizedTheme = useMemo(() => getTheme(themeMode), [themeMode]);
 

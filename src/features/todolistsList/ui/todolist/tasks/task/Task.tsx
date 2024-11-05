@@ -1,23 +1,21 @@
 import { Checkbox, IconButton } from '@mui/material';
 import React, { ChangeEvent, memo } from 'react';
-import { removeTaskTC, TaskDomainType, updateTaskTC } from '../../../../store/task-reducer';
-import { EditableSpan } from '../../../../components/span/EditableSpan';
 import { Delete } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import { AppRootStateType } from '../../../../store/state/store';
-import { TaskStatuses } from '../../../../api/todolists-api';
-import { useAppDispatch } from '../../../../hooks/useAppDispatch';
+import {removeTaskTC, TaskDomainType, updateTaskTC} from '../../../../bll/task-reducer';
+import { useAppDispatch } from '../../../../../../common/hooks/useAppDispatch';
+import { TaskStatuses } from '../../../../../../api/todolists-api';
+import { EditableSpan } from '../../../../../../common/components/span/EditableSpan';
 
 type Props = {
   todolistId: string;
-  taskId: string;
+  task: TaskDomainType
 };
 
-export const Task = memo(({ todolistId, taskId }: Props) => {
-  const task = useSelector<AppRootStateType, TaskDomainType>(
-    (state) =>
-      state.tasks[todolistId].find((el) => el.id === taskId) as TaskDomainType
-  );
+export const Task = memo(({ todolistId, task }: Props) => {
+  // const task = useSelector<AppRootStateType, TaskDomainType>(
+  //   (state) =>
+  //     state.tasks[todolistId].find((el) => el.id === taskId) as TaskDomainType
+  // );
   const dispatch = useAppDispatch();
 
   const onClickHandler = () => dispatch(removeTaskTC(todolistId, task.id));
@@ -42,8 +40,15 @@ export const Task = memo(({ todolistId, taskId }: Props) => {
         color="primary"
         disabled={task.entityStatus === 'loading'}
       />
-      <EditableSpan oldTitle={task.title} updateItem={updateTaskHandler} disabled={task.entityStatus === 'loading'}/>
-      <IconButton onClick={onClickHandler} disabled={task.entityStatus === 'loading'}>
+      <EditableSpan
+        oldTitle={task.title}
+        updateItem={updateTaskHandler}
+        disabled={task.entityStatus === 'loading'}
+      />
+      <IconButton
+        onClick={onClickHandler}
+        disabled={task.entityStatus === 'loading'}
+      >
         <Delete />
       </IconButton>
     </div>
