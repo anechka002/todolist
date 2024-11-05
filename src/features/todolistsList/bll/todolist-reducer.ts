@@ -10,7 +10,7 @@ export const todoListsReducer = (state: Array<TodoListDomainType> = initialState
     case 'TODOLISTS/REMOVE-TODOLIST':
       return state.filter(el => el.id !== action.id)
     case 'TODOLISTS/ADD-TODOLIST':
-      const newTodoList: TodoListDomainType = {...action.todoList, filter: 'all', entityStatus: 'loading'}
+      const newTodoList: TodoListDomainType = {...action.todoList, filter: 'all', entityStatus: 'idle'}
       return [newTodoList, ...state]
     case 'TODOLISTS/UPDATE-TODOLIST':
       return state.map(el => el.id === action.todolistId ? {...el, title: action.title} : el)
@@ -85,13 +85,14 @@ export const removeTodoListTC = (todolistId: string) => (dispatch: Dispatch<Acti
 
 export const addTodoListTC = (title: string) => {
   return (dispatch: Dispatch<ActionsType>) => {
+
     dispatch(setAppStatusAC('loading'))
     todoListsAPI.createTodoLists(title)
       .then((res) => {
         
         if(res.data.resultCode === ResultCode.Success) {
-          dispatch(addTodoListAC(res.data.data.item))
           dispatch(setAppStatusAC('succeeded'))
+          dispatch(addTodoListAC(res.data.data.item))
         } else {
           dispatch(setAppErrorAC(res.data.messages.length ? res.data.messages[0] : 'Some error occurred'))
           dispatch(setAppStatusAC('failed'))

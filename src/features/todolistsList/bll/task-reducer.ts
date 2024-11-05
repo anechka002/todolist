@@ -129,8 +129,8 @@ export const addTaskTC =
       .createTask(todoListId, title)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
-          dispatch(addTaskAC(res.data.data.item));
           dispatch(setAppStatusAC('succeeded'));
+          dispatch(addTaskAC(res.data.data.item));
         } else {
           dispatch(
             setAppErrorAC(
