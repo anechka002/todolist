@@ -1,9 +1,9 @@
+import { useCallback } from 'react';
 import { Box, Button } from '@mui/material'
 import { filterButtonsContainerSx } from './FilterTasksButton.styles'
-import { ButtonWithMemo } from '../../../../../common/components/button/ButtonWithMemo'
 import { changeTodoListFilterAC, TodoListDomainType } from '../../../bll/todolist-reducer';
-import { useAppDispatch } from '../../../../../common/hooks/useAppDispatch';
-import { useCallback } from 'react';
+import { useAppDispatch } from 'common/hooks/useAppDispatch';
+import { ButtonWithMemo } from 'common/components';
 
 type Props = {
   todolist: TodoListDomainType;

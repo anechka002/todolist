@@ -3,15 +3,15 @@ import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from '@mui/material/Typography';
-import {MenuButton} from '../button/MenuButton';
 import { Switch } from '@mui/material';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { getTheme } from '../../theme/theme';
-import { setAppThemeAC } from '../../../app/app-reducer';
-import { selectThemeMode } from '../../../app/appSelectors';
+import { useAppSelector } from 'common/hooks/useAppSelector';
+import { useAppDispatch } from 'common/hooks/useAppDispatch';
+import { selectThemeMode } from 'app/appSelectors';
+import { getTheme } from 'common/theme/theme';
+import { setAppThemeAC } from 'app/app-reducer';
+import { MenuButton } from '../button/MenuButton';
 
-function AppBarHeader() {
+export const AppBarHeader = () => {
 
   const themeMode = useAppSelector(selectThemeMode)
 
@@ -45,5 +45,3 @@ function AppBarHeader() {
     </AppBar>
   )
 }
-
-export default AppBarHeader

@@ -1,9 +1,20 @@
 import { Dispatch } from 'redux';
-import { TaskPriorities, TaskStatuses, TaskType, todoListsAPI, UpdateTaskModelType } from '../../../api/todolists-api';
-import { RequestStatusType, setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from '../../../app/app-reducer';
-import { ResultCode } from '../../../common/enums';
+import {
+  RequestStatusType,
+  setAppErrorAC,
+  SetAppErrorActionType,
+  setAppStatusAC,
+  SetAppStatusActionType,
+} from '../../../app/app-reducer';
+import { ResultCode, TaskPriorities, TaskStatuses } from '../lib/enum/enums';
 import { AppRootStateType } from '../../../app/store';
-import { AddTodoListsActionType, RemoveTodoListsActionType, SetTodoListsActionType } from './todolist-reducer';
+import {
+  AddTodoListsActionType,
+  RemoveTodoListsActionType,
+  SetTodoListsActionType,
+} from './todolist-reducer';
+import { tasksAPI } from '../api/tasks-api';
+import { TaskType, UpdateTaskModelType } from '../api/tasks-api.types';
 
 const initialState: TasksStateType = {};
 
@@ -97,15 +108,24 @@ export const updateTaskAC = (
 export const setTasksAC = (todoListId: string, tasks: TaskType[]) => {
   return { type: 'TASKS/SET-TASKS', todoListId, tasks } as const;
 };
-export const changeTaskEntityStatusAC = (todoListId: string, id: string, entityStatus: RequestStatusType) => {
-  return { type: 'TASKS/CHANGE-TASK-ENTITY-STATUS', todoListId, id, entityStatus,} as const;
+export const changeTaskEntityStatusAC = (
+  todoListId: string,
+  id: string,
+  entityStatus: RequestStatusType
+) => {
+  return {
+    type: 'TASKS/CHANGE-TASK-ENTITY-STATUS',
+    todoListId,
+    id,
+    entityStatus,
+  } as const;
 };
 
 // thunks
 export const getTasksTC =
   (todoListId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
-    todoListsAPI.getTasks(todoListId).then((res) => {
+    tasksAPI.getTasks(todoListId).then((res) => {
       dispatch(setAppStatusAC('succeeded'));
       dispatch(setTasksAC(todoListId, res.data.items));
     });
@@ -114,7 +134,7 @@ export const getTasksTC =
 export const addTaskTC =
   (todoListId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
-    todoListsAPI
+    tasksAPI
       .createTask(todoListId, title)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
@@ -141,7 +161,7 @@ export const removeTaskTC =
   (todoListId: string, id: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTaskEntityStatusAC(todoListId, id, 'loading'));
-    todoListsAPI
+    tasksAPI
       .deleteTask(todoListId, id)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
@@ -178,7 +198,7 @@ export const updateTaskTC =
     };
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTaskEntityStatusAC(todoListId, id, 'loading'));
-    todoListsAPI
+    tasksAPI
       .updateTask(todoListId, id, apiModel)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {

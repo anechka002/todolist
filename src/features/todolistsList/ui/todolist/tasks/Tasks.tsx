@@ -1,10 +1,10 @@
-import { TaskStatuses } from '../../../../../api/todolists-api';
-import { useAppSelector } from '../../../../../common/hooks/useAppSelector';
-import { TodoListDomainType } from '../../../bll/todolist-reducer';
-import { Task } from './task/Task'
 import { List } from '@mui/material';
-import { selectTasks } from '../../../../../app/appSelectors';
-import { RequestStatusType } from '../../../../../app/app-reducer';
+import { Task } from './task/Task'
+import { TodoListDomainType } from '../../../bll/todolist-reducer';
+import { useAppSelector } from 'common/hooks/useAppSelector';
+import { selectTasks } from 'app/appSelectors';
+import { RequestStatusType } from 'app/app-reducer';
+import { TaskStatuses } from 'features/todolistsList/lib/enum';
 
 type Props = {
   todolist: TodoListDomainType

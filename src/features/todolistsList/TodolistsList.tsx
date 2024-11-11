@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { useAppSelector } from "../../common/hooks/useAppSelector";
-import { useAppDispatch } from "../../common/hooks/useAppDispatch";
 import { getTodosTC } from "./bll/todolist-reducer";
-import { selectTodolists } from "../../app/appSelectors";
 import { TodoList } from "./ui/todolist/TodoList";
+import { useAppSelector } from "common/hooks/useAppSelector";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { selectTodolists } from "app/appSelectors";
 
 export const TodolistsList: React.FC = () => {
   const todolists = useAppSelector(selectTodolists);

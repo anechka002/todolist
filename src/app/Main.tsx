@@ -1,10 +1,10 @@
-import Container from '@mui/material/Container'
 import React, { useCallback } from 'react'
-import { TodolistsList } from '../features/todolistsList/TodolistsList'
+import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import { AddItemForm } from '../common/components/itemForm/AddItemForm'
+import { TodolistsList } from '../features/todolistsList/TodolistsList'
 import { addTodoListTC } from '../features/todolistsList/bll/todolist-reducer'
-import { useAppDispatch } from '../common/hooks/useAppDispatch'
+import { useAppDispatch } from 'common/hooks/useAppDispatch'
+import { AddItemForm } from 'common/components/itemForm/AddItemForm'
 
 export const Main = () => {
 

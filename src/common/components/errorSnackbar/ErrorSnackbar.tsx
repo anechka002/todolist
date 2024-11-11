@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setAppErrorAC } from '../../../app/app-reducer';
-import { selectError } from '../../../app/appSelectors';
+import { useAppSelector } from 'common/hooks/useAppSelector';
+import { useAppDispatch } from 'common/hooks/useAppDispatch';
+import { selectError } from 'app/appSelectors';
+import { setAppErrorAC } from 'app/app-reducer';
 
 export const ErrorSnackbar = () => {
 

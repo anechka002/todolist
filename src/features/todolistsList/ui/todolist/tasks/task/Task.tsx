@@ -1,10 +1,10 @@
-import { Checkbox, IconButton } from '@mui/material';
 import React, { ChangeEvent, memo } from 'react';
+import { Checkbox, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import {removeTaskTC, TaskDomainType, updateTaskTC} from '../../../../bll/task-reducer';
-import { useAppDispatch } from '../../../../../../common/hooks/useAppDispatch';
-import { TaskStatuses } from '../../../../../../api/todolists-api';
-import { EditableSpan } from '../../../../../../common/components/span/EditableSpan';
+import { useAppDispatch } from 'common/hooks/useAppDispatch';
+import { TaskStatuses } from 'features/todolistsList/lib/enum';
+import { EditableSpan } from 'common/components/span/EditableSpan';
 
 type Props = {
   todolistId: string;

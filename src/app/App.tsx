@@ -1,14 +1,13 @@
-import React, { useMemo } from 'react';
 import './App.css';
+import React, { useMemo } from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress'
 import { ThemeProvider } from '@mui/material';
-import { useAppSelector } from '../common/hooks/useAppSelector';
-import { getTheme } from '../common/theme/theme';
-import { ErrorSnackbar } from '../common/components/errorSnackbar/ErrorSnackbar';
-import AppBarHeader from '../common/components/header/AppBarHeader';
 import { selectStatus, selectThemeMode } from './appSelectors';
 import { Main } from './Main';
+import { AppBarHeader, ErrorSnackbar } from 'common/components';
+import { useAppSelector } from 'common/hooks/useAppSelector';
+import { getTheme } from 'common/theme/theme';
 
 function App() {
 

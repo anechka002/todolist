@@ -1,9 +1,8 @@
-import React from 'react'
-import { EditableSpan } from '../../../../../common/components/span/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import { Delete } from '@mui/icons-material';
-import { useAppDispatch } from '../../../../../common/hooks/useAppDispatch';
 import { removeTodoListTC, TodoListDomainType, updateTodoListTC } from '../../../bll/todolist-reducer';
+import { useAppDispatch } from 'common/hooks/useAppDispatch';
+import { EditableSpan } from 'common/components/span/EditableSpan';
 
 type Props = {
   todolist: TodoListDomainType
