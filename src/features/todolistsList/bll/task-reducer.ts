@@ -5,8 +5,6 @@ import { ResultCode } from '../../../common/enums';
 import { AppRootStateType } from '../../../app/store';
 import { AddTodoListsActionType, RemoveTodoListsActionType, SetTodoListsActionType } from './todolist-reducer';
 
-
-
 const initialState: TasksStateType = {};
 
 export const tasksReducer = (
@@ -99,17 +97,8 @@ export const updateTaskAC = (
 export const setTasksAC = (todoListId: string, tasks: TaskType[]) => {
   return { type: 'TASKS/SET-TASKS', todoListId, tasks } as const;
 };
-export const changeTaskEntityStatusAC = (
-  todoListId: string,
-  id: string,
-  entityStatus: RequestStatusType
-) => {
-  return {
-    type: 'TASKS/CHANGE-TASK-ENTITY-STATUS',
-    todoListId,
-    id,
-    entityStatus,
-  } as const;
+export const changeTaskEntityStatusAC = (todoListId: string, id: string, entityStatus: RequestStatusType) => {
+  return { type: 'TASKS/CHANGE-TASK-ENTITY-STATUS', todoListId, id, entityStatus,} as const;
 };
 
 // thunks
