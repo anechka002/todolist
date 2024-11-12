@@ -1,7 +1,7 @@
 import React, { ChangeEvent, memo } from 'react';
 import { Checkbox, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import {removeTaskTC, TaskDomainType, updateTaskTC} from '../../../../bll/task-reducer';
+import {removeTaskTC, TaskDomainType, UpdateDomainTaskModelType, updateTaskTC} from '../../../../bll/task-reducer';
 import { useAppDispatch } from 'common/hooks/useAppDispatch';
 import { TaskStatuses } from 'features/todolistsList/lib/enum';
 import { EditableSpan } from 'common/components/span/EditableSpan';
@@ -11,7 +11,7 @@ type Props = {
   task: TaskDomainType
 };
 
-export const Task = memo(({ todolistId, task }: Props) => {
+export const Task = ({ todolistId, task }: Props) => {
   // const task = useSelector<AppRootStateType, TaskDomainType>(
   //   (state) =>
   //     state.tasks[todolistId].find((el) => el.id === taskId) as TaskDomainType
@@ -28,8 +28,9 @@ export const Task = memo(({ todolistId, task }: Props) => {
       })
     );
   };
-  const updateTaskHandler = (newTitle: string) => {
-    dispatch(updateTaskTC(todolistId, task.id, { title: newTitle }));
+  const updateTaskHandler = (domainModel: UpdateDomainTaskModelType) => {
+    const title = domainModel.title ?? ""
+    dispatch(updateTaskTC(todolistId, task.id, { title }));
   };
 
   return (
@@ -53,4 +54,4 @@ export const Task = memo(({ todolistId, task }: Props) => {
       </IconButton>
     </div>
   );
-});
+};

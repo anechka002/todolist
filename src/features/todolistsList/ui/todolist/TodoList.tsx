@@ -11,7 +11,7 @@ type Props = {
   todolist: TodoListDomainType;
 };
 
-export const TodoList = memo(({ todolist }: Props) => {
+export const TodoList = ({ todolist }: Props) => {
   const { id, title, filter, addedDate, order, entityStatus } = todolist;
 
   const dispatch = useAppDispatch();
@@ -38,4 +38,4 @@ export const TodoList = memo(({ todolist }: Props) => {
       <FilterTasksButton todolist={todolist} />
     </div>
   );
-});
+};

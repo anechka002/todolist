@@ -2,7 +2,7 @@ import {
   applyMiddleware,
   combineReducers,
   compose,
-  legacy_createStore,
+  legacy_createStore as createStore,
 } from 'redux';
 import { thunk } from 'redux-thunk';
 import { appReducer } from './app-reducer';
@@ -23,13 +23,13 @@ const rootReducer = combineReducers({
   app: appReducer,
 });
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // {}, composeEnhancers(),
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // {}, composeEnhancers(),
 
 // непосредственно создаём store
-export const store = legacy_createStore(
+export const store = createStore(
   rootReducer,
   {},
-  applyMiddleware(thunk)
+  composeEnhancers(applyMiddleware(thunk)),
 );
 
 // определить автоматически тип всего объекта состояния
@@ -45,6 +45,11 @@ export type AppDispatch = typeof store.dispatch;
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;
+
+// Подписка на изменения store
+// store.subscribe(() => {
+//   console.log('State changed:', store.getState());
+// });
 
 // store = {
 //   state: {

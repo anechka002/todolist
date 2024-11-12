@@ -198,8 +198,7 @@ export const updateTaskTC =
     };
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTaskEntityStatusAC(todoListId, id, 'loading'));
-    tasksAPI
-      .updateTask(todoListId, id, apiModel)
+    tasksAPI.updateTask(todoListId, id, apiModel)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
           dispatch(setAppStatusAC('succeeded'));

@@ -12,21 +12,22 @@ type Props = {
 
 export const Tasks = ({todolist}: Props) => {
 
-  const { id, title, filter, addedDate, order, entityStatus } = todolist;
+  // const { id, title, filter, addedDate, order, entityStatus } = todolist;
 
   let tasks = useAppSelector(selectTasks);
   // let tasks = useAppSelector((state) => state.tasks[id]);
 
-  const allTodolistTasks = tasks[id]
+  const allTodolistTasks = tasks[todolist.id] || []
+  
   let tasksForTodolist = allTodolistTasks.map((task) => ({
     ...task,
     entityStatus: 'idle' as RequestStatusType, // Добавляем свойство entityStatus, если оно отсутствует
   }));
 
-    if (filter === 'active') {
+    if (todolist.filter === 'active') {
       tasksForTodolist = tasksForTodolist.filter((el) => el.status === TaskStatuses.New);
     }
-    if (filter === 'completed') {
+    if (todolist.filter === 'completed') {
       tasksForTodolist = tasksForTodolist.filter((el) => el.status === TaskStatuses.Completed);
     }
 
@@ -37,7 +38,7 @@ export const Tasks = ({todolist}: Props) => {
       ) : (
         <List>
           {tasksForTodolist.map((el) => (
-            <Task key={el.id} task={el} todolistId={id} />
+            <Task key={el.id} task={el} todolistId={todolist.id} />
           ))}
         </List>
       )}

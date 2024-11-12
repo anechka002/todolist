@@ -3,6 +3,7 @@ import { Delete } from '@mui/icons-material';
 import { removeTodoListTC, TodoListDomainType, updateTodoListTC } from '../../../bll/todolist-reducer';
 import { useAppDispatch } from 'common/hooks/useAppDispatch';
 import { EditableSpan } from 'common/components/span/EditableSpan';
+import { UpdateDomainTaskModelType } from 'features/todolistsList/bll/task-reducer';
 
 type Props = {
   todolist: TodoListDomainType
@@ -17,8 +18,10 @@ export const TodoListTitle = ({todolist}: Props) => {
     dispatch(removeTodoListTC(id));
   };
 
-  const updateTodoListHandler = (newTitle: string) => {
-    dispatch(updateTodoListTC(id, newTitle));
+  const updateTodoListHandler = (domainModel: UpdateDomainTaskModelType) => {
+    if(domainModel.title) {
+      dispatch(updateTodoListTC(id, domainModel.title));
+    }
   };
 
   return (

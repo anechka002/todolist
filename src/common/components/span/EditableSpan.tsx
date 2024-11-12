@@ -1,40 +1,57 @@
 import { TextField } from '@mui/material'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import '../../../app/App.css'
+import { UpdateDomainTaskModelType } from 'features/todolistsList/bll/task-reducer'
 
 type Props = {
   oldTitle: string
-  updateItem: (newTitle: string) => void
+  updateItem: (domainModel: UpdateDomainTaskModelType) => void
   disabled: boolean
 }
 
 export function EditableSpan({oldTitle, updateItem, disabled}: Props) {
-
   const [editMode, setEditMode] = useState(false)
-  const [newTitle, setNewTitle] = useState(oldTitle)
+  const [title, setTitle] = useState(oldTitle)
+  
+  console.log('oldTitle ', oldTitle)
+
+  // useEffect(() => {
+  //   console.log(oldTitle, 'useEffect')
+  // }, [oldTitle])
 
   const activateEditModeHandler = () => {
     setEditMode(true)
-    // Если мы выходим из режима редактирования, обновляем заголовок
-    if(editMode) {
-      updateItem(newTitle)
-    } 
-      setEditMode(!editMode)
+  }
+  const deactivateEditModeHandler = () => {
+    setEditMode(false)
+    updateItem({title})
   }
 
   const changeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(e.currentTarget.value)
+    setTitle(e.currentTarget.value)
   }
 
-  return editMode 
-    ? <TextField
-        variant='outlined'
-        value={newTitle}
-        onBlur={activateEditModeHandler}
-        onChange={changeTitleHandler}
-        autoFocus
-        // disabled={disabled}
-      />
-    : <span className={disabled ? 'disabled' : ''} onDoubleClick={!disabled ?activateEditModeHandler : undefined}>{oldTitle}</span>
+  return (
+    <>
+      {editMode ? (
+        <TextField
+          variant='outlined'
+          value={title}
+          onBlur={deactivateEditModeHandler}
+          onChange={changeTitleHandler}
+          autoFocus
+          // disabled={disabled}
+        />
+      ) : (
+        <span
+          className={disabled ? 'disabled' : ''}
+          onDoubleClick={!disabled ? activateEditModeHandler : undefined}
+        >
+          {oldTitle}
+        </span>
+      )}
+    
+      {/* <div>{oldTitle}</div> */}
+    </>
+  )
 }
-

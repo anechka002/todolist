@@ -15,7 +15,6 @@ export const TodolistsList: React.FC = () => {
   useEffect(() => {
     dispatch(getTodosTC());
   }, []);
-
   
   return (
     <>     

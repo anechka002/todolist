@@ -89,22 +89,22 @@ export const changeTodoListEntityStatusAC = (
 // thunks
 export const getTodosTC = () => (dispatch: Dispatch<ActionsType>) => {
   dispatch(setAppStatusAC('loading'));
-  todoListsAPI.getTodoLists().then((res) => {
-    dispatch(setAppStatusAC('succeeded'));
-    dispatch(setTodoListsAC(res.data));
-  });
-  // .catch((err) => {
-  //   dispatch(setAppErrorAC(err.message))
-  //   dispatch(setAppStatusAC('failed'))
-  // })
+  todoListsAPI.getTodoLists()
+    .then((res) => {
+      dispatch(setAppStatusAC('succeeded'));
+      dispatch(setTodoListsAC(res.data));
+    })
+  .catch((err) => {
+    dispatch(setAppErrorAC(err.message))
+    dispatch(setAppStatusAC('failed'))
+  })
 };
 
 export const removeTodoListTC =
   (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTodoListEntityStatusAC(todolistId, 'loading'));
-    todoListsAPI
-      .deleteTodoList(todolistId)
+    todoListsAPI.deleteTodoList(todolistId)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
           dispatch(removeTodoListAC(todolistId));
@@ -123,8 +123,7 @@ export const removeTodoListTC =
 export const addTodoListTC = (title: string) => {
   return (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
-    todoListsAPI
-      .createTodoLists(title)
+    todoListsAPI.createTodoLists(title)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
           dispatch(setAppStatusAC('succeeded'));
@@ -151,8 +150,7 @@ export const updateTodoListTC =
   (todolistId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'));
     dispatch(changeTodoListEntityStatusAC(todolistId, 'loading'));
-    todoListsAPI
-      .updateTodoList(todolistId, title)
+    todoListsAPI.updateTodoList(todolistId, title)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
           dispatch(setAppStatusAC('succeeded'));
