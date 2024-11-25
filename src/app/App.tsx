@@ -23,10 +23,8 @@ function App() {
         <CssBaseline />
         <Box sx={{ flexGrow: 1, mb: 10 }}>
           <AppBarHeader />
+          {status === 'loading' && <LinearProgress />}
         </Box>
-
-        {status === 'loading' && <LinearProgress />}
-        
         <Main/>
       </ThemeProvider>
     </div>
