@@ -1,12 +1,6 @@
-import { TaskPriorities, TaskStatuses } from '../../api/todolists-api';
-import {
-  addTaskAC,
-  removeTaskAC,
-  tasksReducer,
-  TasksStateType,
-  updateTaskAC,
-} from './task-reducer';
-import { addTodoListAC, removeTodoListAC } from './todolist-reducer';
+import { TaskPriorities, TaskStatuses } from 'features/todolistsList/lib/enum';
+import { addTaskAC, removeTaskAC, tasksReducer, TasksStateType, updateTaskAC } from '../task-reducer';
+import { addTodoListAC, removeTodoListAC } from '../todolist-reducer';
 
 let startState: TasksStateType;
 
@@ -166,7 +160,7 @@ test('correct task should be deleted from correct array', () => {
 });
 
 test('correct task should be added to correct array', () => {
-  // const action = addTaskAC('todoListId2', 'yo')
+
   const action = addTaskAC({
     todoListId: 'todoListId2',
     title: 'yo',
