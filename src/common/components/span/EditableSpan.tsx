@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import '../../../app/App.css'
 import { UpdateDomainTaskModelType } from 'features/todolistsList/bll/task-reducer'
 
@@ -12,12 +12,6 @@ type Props = {
 export function EditableSpan({oldTitle, updateItem, disabled}: Props) {
   const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState(oldTitle)
-  
-  console.log('oldTitle ', oldTitle)
-
-  // useEffect(() => {
-  //   console.log(oldTitle, 'useEffect')
-  // }, [oldTitle])
 
   const activateEditModeHandler = () => {
     setEditMode(true)
@@ -47,11 +41,9 @@ export function EditableSpan({oldTitle, updateItem, disabled}: Props) {
           className={disabled ? 'disabled' : ''}
           onDoubleClick={!disabled ? activateEditModeHandler : undefined}
         >
-          {oldTitle}
+          {title}
         </span>
       )}
-    
-      {/* <div>{oldTitle}</div> */}
     </>
   )
 }
