@@ -12,15 +12,15 @@ export const tasksAPI = {
       `/todo-lists/${todoListId}/tasks`
     );
   },
-  createTask(todoListId: string, title: string) {
+  createTask(arg: {todoListId: string, title: string}) {
     return instance.post<ResponseType<{ item: TaskType }>>(
-      `/todo-lists/${todoListId}/tasks`,
-      { title }
+      `/todo-lists/${arg.todoListId}/tasks`,
+      { title: arg.title }
     );
   },
-  deleteTask(todoListId: string, taskId: string) {
+  deleteTask(arg: {todoListId: string, taskId: string}) {
     return instance.delete<ResponseType>(
-      `/todo-lists/${todoListId}/tasks/${taskId}`
+      `/todo-lists/${arg.todoListId}/tasks/${arg.taskId}`
     );
   },
   updateTask(todoListId: string, taskId: string, model: UpdateTaskModelType) {

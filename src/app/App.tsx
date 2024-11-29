@@ -1,5 +1,4 @@
 import './App.css';
-import React, { useMemo } from 'react';
 import { Box, CssBaseline } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress'
 import { ThemeProvider } from '@mui/material';
@@ -14,7 +13,8 @@ function App() {
   const status = useAppSelector(selectStatus)
   const themeMode = useAppSelector(selectThemeMode)
 
-  const memoizedTheme = useMemo(() => getTheme(themeMode), [themeMode]);
+  // const memoizedTheme = useMemo(() => getTheme(themeMode), [themeMode]);
+  const memoizedTheme =  getTheme(themeMode);
 
   return (
     <div className="App">
