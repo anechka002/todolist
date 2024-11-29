@@ -30,6 +30,7 @@ export const FilterTasksButton = ({todolist}:Props) => {
         variant={filter === 'all' ? 'outlined' : 'text'}
         onClick={onAllClickHandler}
         color={'inherit'}
+        disabled={entityStatus === 'loading'}
       >
         All
       </Button>
@@ -37,6 +38,7 @@ export const FilterTasksButton = ({todolist}:Props) => {
         variant={filter === 'active' ? 'outlined' : 'text'}
         onClick={onActiveClickHandler}
         color={'primary'}
+        disabled={entityStatus === 'loading'}
       >
         Active
       </Button>
@@ -44,6 +46,7 @@ export const FilterTasksButton = ({todolist}:Props) => {
         variant={filter === 'completed' ? 'outlined' : 'text'}
         onClick={onCompletedClickHandler}
         color={'secondary'}
+        disabled={entityStatus === 'loading'}
       >
         Completed
       </ButtonWithMemo>

@@ -7,9 +7,10 @@ import { TaskStatuses } from "features/todolistsList/lib/enum"
 
 type Props = {
   todolist: TodoListDomainType
+  disabled?: boolean
 }
 
-export const Tasks = ({ todolist }: Props) => {
+export const Tasks = ({ todolist, disabled }: Props) => {
   // const { id, title, filter, addedDate, order, entityStatus } = todolist;
 
   let tasks = useAppSelector(selectTasks)
@@ -33,7 +34,7 @@ export const Tasks = ({ todolist }: Props) => {
       ) : (
         <List>
           {tasksForTodolist.map((el) => (
-            <Task key={el.id} task={el} todolistId={todolist.id} />
+            <Task key={el.id} task={el} todolistId={todolist.id} disabled={disabled}/>
           ))}
         </List>
       )}

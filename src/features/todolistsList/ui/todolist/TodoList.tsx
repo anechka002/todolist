@@ -34,8 +34,8 @@ export const TodoList = ({ todolist }: Props) => {
         addItem={addTaskHandler}
         disabled={entityStatus === 'loading'}
       />
-      <Tasks todolist={todolist}/>
-      <FilterTasksButton todolist={todolist} />
+      <Tasks todolist={todolist} disabled={entityStatus === 'loading'}/>
+      <FilterTasksButton todolist={todolist}/>
     </div>
   );
 };

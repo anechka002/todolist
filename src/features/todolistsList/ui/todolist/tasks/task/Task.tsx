@@ -9,9 +9,10 @@ import { EditableSpan } from 'common/components/span/EditableSpan';
 type Props = {
   todolistId: string;
   task: TaskDomainType
+  disabled?: boolean
 };
 
-export const Task = ({ todolistId, task }: Props) => {
+export const Task = ({ todolistId, task, disabled }: Props) => {
   // const task = useSelector<AppRootStateType, TaskDomainType>(
   //   (state) =>
   //     state.tasks[todolistId].find((el) => el.id === taskId) as TaskDomainType
@@ -48,16 +49,16 @@ export const Task = ({ todolistId, task }: Props) => {
         checked={task.status === TaskStatuses.Completed}
         onChange={onChangeTaskStatusHandler}
         color="primary"
-        disabled={task.entityStatus === 'loading'}
+        disabled={disabled || task.entityStatus === 'loading'}
       />
       <EditableSpan
         oldTitle={task.title}
         updateItem={updateTaskHandler}
-        disabled={task.entityStatus === 'loading'}
+        disabled={disabled || task.entityStatus === 'loading'}
       />
       <IconButton
         onClick={onClickHandler}
-        disabled={task.entityStatus === 'loading'}
+        disabled={disabled || task.entityStatus === 'loading'}
       >
         <Delete />
       </IconButton>
