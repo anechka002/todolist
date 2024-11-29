@@ -3,7 +3,6 @@ import { Task } from "./task/Task"
 import { TodoListDomainType } from "../../../bll/todolist-reducer"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { selectTasks } from "app/appSelectors"
-import { RequestStatusType } from "app/bll/app-reducer"
 import { TaskStatuses } from "features/todolistsList/lib/enum"
 
 type Props = {
@@ -16,12 +15,9 @@ export const Tasks = ({ todolist }: Props) => {
   let tasks = useAppSelector(selectTasks)
   // let tasks = useAppSelector((state) => state.tasks[id]);
 
-  const allTodolistTasks = tasks[todolist.id] || []
+  const allTodolistTasks = tasks[todolist.id]
 
-  let tasksForTodolist = allTodolistTasks.map((task) => ({
-    ...task,
-    entityStatus: "idle" as RequestStatusType, // Добавляем свойство entityStatus, если оно отсутствует
-  }))
+  let tasksForTodolist = allTodolistTasks
 
   if (todolist.filter === "active") {
     tasksForTodolist = tasksForTodolist.filter((el) => el.status === TaskStatuses.New)

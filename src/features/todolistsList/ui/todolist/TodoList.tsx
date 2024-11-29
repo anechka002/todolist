@@ -22,7 +22,7 @@ export const TodoList = ({ todolist }: Props) => {
 
   const addTaskHandler = useCallback(
     (newTitle: string) => {
-      dispatch(addTaskTC(id, newTitle));
+      dispatch(addTaskTC({todoListId: id, title: newTitle}));
     },
     [dispatch]
   );

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo } from 'react';
+import React, { ChangeEvent } from 'react';
 import { Checkbox, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import {removeTaskTC, TaskDomainType, UpdateDomainTaskModelType, updateTaskTC} from '../../../../bll/task-reducer';
@@ -18,7 +18,9 @@ export const Task = ({ todolistId, task }: Props) => {
   // );
   const dispatch = useAppDispatch();
 
-  const onClickHandler = () => dispatch(removeTaskTC(todolistId, task.id));
+  const onClickHandler = () => {
+    dispatch(removeTaskTC({ todoListId: todolistId, taskId: task.id }))
+  };
 
   const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let newIsDoneValue = e.currentTarget.checked;
@@ -28,9 +30,16 @@ export const Task = ({ todolistId, task }: Props) => {
       })
     );
   };
+
   const updateTaskHandler = (domainModel: UpdateDomainTaskModelType) => {
-    const title = domainModel.title ?? ""
-    dispatch(updateTaskTC(todolistId, task.id, { title }));
+    const oldTitle = task.title
+    let title;
+
+    if (domainModel.title) {     
+      title = domainModel.title.length > 100 || domainModel.title.length < 1 ? oldTitle : domainModel.title
+    } 
+
+    dispatch(updateTaskTC(todolistId, task.id, { title }));   
   };
 
   return (
