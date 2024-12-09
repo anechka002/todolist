@@ -7,6 +7,7 @@ import { Main } from './Main';
 import { AppBarHeader, ErrorSnackbar } from 'common/components';
 import { useAppSelector } from 'common/hooks/useAppSelector';
 import { getTheme } from 'common/theme/theme';
+import { Routing } from 'common/routing';
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
           <AppBarHeader />
           {status === 'loading' && <LinearProgress />}
         </Box>
-        <Main/>
+        <Routing/>
       </ThemeProvider>
     </div>
   );
