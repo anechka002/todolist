@@ -95,16 +95,13 @@ export const clearDataAC = () => {
 export const getTodosTC = (): AppThunkType => (dispatch) => {
 
   dispatch(setAppStatusAC("loading"))
-  debugger
   todoListsAPI.getTodoLists()
     .then((res) => {
-      debugger
       dispatch(setAppStatusAC("succeeded"))
       dispatch(setTodoListsAC(res.data))
       return res.data
     })
     .then((todos) => {
-      debugger
       todos.forEach((tl) => dispatch(getTasksTC(tl.id)))     
     })
     .catch((err) => {

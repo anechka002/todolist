@@ -51,7 +51,6 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
       return copyState
 
     case "TODOLISTS/SET-TODOLISTS": {
-      debugger
       return action.todos.reduce((acc, val) => {
         acc[val.id] = []
         return acc
@@ -59,7 +58,6 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
     }
 
     case "TASKS/SET-TASKS": {
-      debugger
       return {
         ...state,
         [action.todoListId]: action.tasks.map((el) => ({
