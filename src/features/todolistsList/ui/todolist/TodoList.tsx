@@ -16,10 +16,6 @@ export const TodoList = ({ todolist }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(getTasksTC(id));
-  }, []);
-
   const addTaskHandler = useCallback(
     (newTitle: string) => {
       dispatch(addTaskTC({todoListId: id, title: newTitle}));

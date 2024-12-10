@@ -4,6 +4,7 @@ import { AppDispatchType } from "app/store"
 import { authApi } from "../api/authApi"
 import { ResultCode } from "features/todolistsList/lib/enum"
 import { handleServerAppError, handleServerNetworkError } from "common/utils"
+import { clearDataAC } from "features/todolistsList/bll/todolist-reducer"
 
 type InitialStateType = typeof initialState
 
@@ -64,6 +65,7 @@ export const logoutTC = () => (dispatch: AppDispatchType) => {
       dispatch(setAppStatusAC("succeeded"))
       dispatch(setIsLoggedInAC(false))
       localStorage.removeItem('sn-token')
+      dispatch(clearDataAC())
     } else {
       handleServerAppError(res.data, dispatch)
     }

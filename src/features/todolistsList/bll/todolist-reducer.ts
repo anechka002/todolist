@@ -9,6 +9,7 @@ import { ResultCode } from "../lib/enum/enums"
 import { TodoListType } from "../api/todolists-api.types"
 import { AppThunkType } from "app/store"
 import { handleServerAppError, handleServerNetworkError } from "common/utils"
+import { getTasksTC } from "./task-reducer"
 
 const initialState: Array<TodoListDomainType> = []
 
@@ -43,6 +44,10 @@ export const todoListsReducer = (state: Array<TodoListDomainType> = initialState
 
     case "TODOLISTS/CHANGE-TODOLIST-ENTITY-STATUS": {
       return state.map((tl) => (tl.id === action.id ? { ...tl, entityStatus: action.entityStatus } : tl))
+    }
+
+    case "CLEAR-DATA": {
+      return []
     }
 
     default:
@@ -82,16 +87,25 @@ export const changeTodoListEntityStatusAC = (id: string, entityStatus: RequestSt
     entityStatus,
   } as const
 }
+export const clearDataAC = () => {
+  return { type: "CLEAR-DATA"} as const
+}
 
 // thunks
 export const getTodosTC = (): AppThunkType => (dispatch) => {
 
   dispatch(setAppStatusAC("loading"))
-
+  debugger
   todoListsAPI.getTodoLists()
     .then((res) => {
+      debugger
       dispatch(setAppStatusAC("succeeded"))
       dispatch(setTodoListsAC(res.data))
+      return res.data
+    })
+    .then((todos) => {
+      debugger
+      todos.forEach((tl) => dispatch(getTasksTC(tl.id)))     
     })
     .catch((err) => {
       handleServerNetworkError(err, dispatch)
@@ -171,6 +185,7 @@ export type TodoListDomainType = TodoListType & {
 export type RemoveTodoListsActionType = ReturnType<typeof removeTodoListAC>
 export type AddTodoListsActionType = ReturnType<typeof addTodoListAC>
 export type SetTodoListsActionType = ReturnType<typeof setTodoListsAC>
+export type ClearDataActionType = ReturnType<typeof clearDataAC>
 
 export type TodolistsActionsType =
   | ReturnType<typeof updateTodoListAC>
@@ -181,3 +196,4 @@ export type TodolistsActionsType =
   | SetAppStatusActionType
   | SetAppErrorActionType
   | ReturnType<typeof changeTodoListEntityStatusAC>
+  | ClearDataActionType

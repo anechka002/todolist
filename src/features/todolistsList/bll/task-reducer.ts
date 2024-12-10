@@ -6,7 +6,7 @@ import {
 } from "../../../app/bll/app-reducer"
 import { ResultCode, TaskPriorities, TaskStatuses } from "../lib/enum/enums"
 import { AppRootStateType, AppThunkType } from "../../../app/store"
-import { AddTodoListsActionType, RemoveTodoListsActionType, SetTodoListsActionType } from "./todolist-reducer"
+import { AddTodoListsActionType, ClearDataActionType, RemoveTodoListsActionType, SetTodoListsActionType } from "./todolist-reducer"
 import { tasksAPI } from "../api/tasks-api"
 import { TaskType, UpdateTaskModelType } from "../api/tasks-api.types"
 import { handleServerAppError, handleServerNetworkError } from "common/utils"
@@ -51,6 +51,7 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
       return copyState
 
     case "TODOLISTS/SET-TODOLISTS": {
+      debugger
       return action.todos.reduce((acc, val) => {
         acc[val.id] = []
         return acc
@@ -58,6 +59,7 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
     }
 
     case "TASKS/SET-TASKS": {
+      debugger
       return {
         ...state,
         [action.todoListId]: action.tasks.map((el) => ({
@@ -74,6 +76,10 @@ export const tasksReducer = (state = initialState, action: TasksActionsType): Ta
           el.id === action.payload.taskId ? { ...el, entityStatus: action.payload.entityStatus } : el
         ),
       }
+    }
+
+    case "CLEAR-DATA": {
+      return {}
     }
 
     default:
@@ -216,6 +222,7 @@ export type TasksActionsType =
   | SetAppStatusActionType
   | SetAppErrorActionType
   | ReturnType<typeof changeTaskEntityStatusAC>
+  | ClearDataActionType
 
 export type UpdateDomainTaskModelType = {
   title?: string
