@@ -3,6 +3,7 @@ import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk"
 import { AppActionsType, appReducer } from "./bll/app-reducer"
 import { TasksActionsType, tasksReducer } from "../features/todolistsList/bll/task-reducer"
 import { TodolistsActionsType, todoListsReducer } from "../features/todolistsList/bll/todolist-reducer"
+import { authReducer, AuthType } from "features/auth/model/auth-reducer"
 
 declare global {
   interface Window {
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todoListsReducer,
   app: appReducer,
+  auth: authReducer,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose // {}, composeEnhancers(),
@@ -34,7 +36,7 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, ActionsType>
 
 // все типы action для всего app
-export type ActionsType = TodolistsActionsType | TasksActionsType | AppActionsType
+export type ActionsType = TodolistsActionsType | TasksActionsType | AppActionsType | AuthType
 
 // типизация всех action и thunk
 export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, ActionsType>

@@ -1,14 +1,27 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import { TodolistsList } from '../features/todolistsList/TodolistsList'
 import { addTodoListTC } from '../features/todolistsList/bll/todolist-reducer'
 import { useAppDispatch } from 'common/hooks/useAppDispatch'
 import { AddItemForm } from 'common/components/itemForm/AddItemForm'
+import { useNavigate } from 'react-router'
+import { useAppSelector } from 'common/hooks'
+import { selectIsLoggedIn } from './appSelectors'
+import { Path } from 'common/routing/Routing'
 
 export const Main = () => {
 
   const dispatch = useAppDispatch();
+
+  // const navigate = useNavigate()
+  // const isLoggedIn = useAppSelector(selectIsLoggedIn)
+  // useEffect(() => {
+  //   // debugger
+  //   if(!isLoggedIn) {
+  //     navigate(Path.Login)
+  //   }
+  // }, [isLoggedIn])
 
   const addTodoList = useCallback(
     (title: string) => {
