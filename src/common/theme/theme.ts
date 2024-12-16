@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles"
-import { RequestThemeType } from "../../app/bll/app-reducer"
+import { RequestThemeType } from "../../app/bll/appSlice"
 
 export const getTheme = (themeMode: RequestThemeType) =>
   createTheme({

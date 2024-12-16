@@ -1,9 +1,10 @@
-import { applyMiddleware, combineReducers, compose, legacy_createStore as createStore } from "redux"
-import { thunk, ThunkAction, ThunkDispatch } from "redux-thunk"
-import { AppActionsType, appReducer } from "./bll/app-reducer"
-import { TasksActionsType, tasksReducer } from "../features/todolistsList/bll/task-reducer"
-import { TodolistsActionsType, todoListsReducer } from "../features/todolistsList/bll/todolist-reducer"
-import { authReducer, AuthType } from "features/auth/model/auth-reducer"
+import { Action, combineReducers, compose, legacy_createStore as createStore } from "redux"
+import { ThunkAction, ThunkDispatch } from "redux-thunk"
+import { tasksReducer, tasksSlice } from "../features/todolistsList/bll/tasksSlice"
+import { todoListsReducer, todolistsSlice } from "../features/todolistsList/bll/todolistsSlice"
+import { authReducer, authSlice } from "features/auth/model/authSlice"
+import { configureStore } from "@reduxjs/toolkit"
+import { appReducer, appSlice } from "./bll/appSlice"
 
 declare global {
   interface Window {
@@ -14,16 +15,20 @@ declare global {
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  todolists: todoListsReducer,
-  app: appReducer,
-  auth: authReducer,
+  
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose // {}, composeEnhancers(),
 
 // непосредственно создаём store
-export const store = createStore(rootReducer, {}, composeEnhancers(applyMiddleware(thunk)))
+export const store = configureStore({ 
+  reducer: {
+    [tasksSlice.name]: tasksReducer,
+    [todolistsSlice.name]: todoListsReducer,
+    [appSlice.name]: appReducer,
+    [authSlice.name]: authReducer,
+  } 
+})
 
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
@@ -32,14 +37,14 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 export type RootState = ReturnType<typeof store.getState>
 
 // создаем тип dispatch который принимает как АС так и ТС
-// export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch
 export type AppDispatchType = ThunkDispatch<AppRootStateType, unknown, ActionsType>
 
 // все типы action для всего app
-export type ActionsType = TodolistsActionsType | TasksActionsType | AppActionsType | AuthType
+export type ActionsType = any
 
 // типизация всех action и thunk
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, ActionsType>
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action>
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore

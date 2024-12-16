@@ -1,52 +1,52 @@
-import { useCallback } from 'react';
-import { Box, Button } from '@mui/material'
-import { filterButtonsContainerSx } from './FilterTasksButton.styles'
-import { changeTodoListFilterAC, TodoListDomainType } from '../../../bll/todolist-reducer';
-import { useAppDispatch } from 'common/hooks/useAppDispatch';
-import { ButtonWithMemo } from 'common/components';
+import { useCallback } from "react"
+import { Box, Button } from "@mui/material"
+import { filterButtonsContainerSx } from "./FilterTasksButton.styles"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { ButtonWithMemo } from "common/components"
+import { changeTodoListFilter, TodoListDomainType } from "features/todolistsList/bll/todolistsSlice"
 
 type Props = {
-  todolist: TodoListDomainType;
+  todolist: TodoListDomainType
 }
 
-export const FilterTasksButton = ({todolist}:Props) => {
-  const { id, title, filter, addedDate, order, entityStatus } = todolist;
+export const FilterTasksButton = ({ todolist }: Props) => {
+  const { id, title, filter, addedDate, order, entityStatus } = todolist
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const onAllClickHandler = useCallback(() => {
-    dispatch(changeTodoListFilterAC(id, 'all'));
-  }, [dispatch]);
+    dispatch(changeTodoListFilter({todolistId: id, filter: "all"}))
+  }, [dispatch])
   const onActiveClickHandler = useCallback(() => {
-    dispatch(changeTodoListFilterAC(id, 'active'));
-  }, [dispatch]);
+    dispatch(changeTodoListFilter({todolistId: id, filter: "active"}))
+  }, [dispatch])
   const onCompletedClickHandler = useCallback(() => {
-    dispatch(changeTodoListFilterAC(id, 'completed'));
-  }, [dispatch]);
+    dispatch(changeTodoListFilter({todolistId: id, filter: "completed"}))
+  }, [dispatch])
 
   return (
     <Box sx={filterButtonsContainerSx}>
       <Button
-        variant={filter === 'all' ? 'outlined' : 'text'}
+        variant={filter === "all" ? "outlined" : "text"}
         onClick={onAllClickHandler}
-        color={'inherit'}
-        disabled={entityStatus === 'loading'}
+        color={"inherit"}
+        disabled={entityStatus === "loading"}
       >
         All
       </Button>
       <Button
-        variant={filter === 'active' ? 'outlined' : 'text'}
+        variant={filter === "active" ? "outlined" : "text"}
         onClick={onActiveClickHandler}
-        color={'primary'}
-        disabled={entityStatus === 'loading'}
+        color={"primary"}
+        disabled={entityStatus === "loading"}
       >
         Active
       </Button>
       <ButtonWithMemo
-        variant={filter === 'completed' ? 'outlined' : 'text'}
+        variant={filter === "completed" ? "outlined" : "text"}
         onClick={onCompletedClickHandler}
-        color={'secondary'}
-        disabled={entityStatus === 'loading'}
+        color={"secondary"}
+        disabled={entityStatus === "loading"}
       >
         Completed
       </ButtonWithMemo>

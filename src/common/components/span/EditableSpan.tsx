@@ -1,9 +1,9 @@
-import { TextField } from '@mui/material'
-import React, { ChangeEvent, useState } from 'react'
-import '../../../app/App.css'
-import { UpdateDomainTaskModelType } from 'features/todolistsList/bll/task-reducer'
-import { useAppDispatch } from 'common/hooks/useAppDispatch'
-import { setAppErrorAC } from 'app/bll/app-reducer'
+import { TextField } from "@mui/material"
+import React, { ChangeEvent, useState } from "react"
+import "../../../app/App.css"
+import { UpdateDomainTaskModelType } from "features/todolistsList/bll/tasksSlice"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { setAppError } from "app/bll/appSlice"
 
 type Props = {
   oldTitle: string
@@ -11,7 +11,7 @@ type Props = {
   disabled?: boolean
 }
 
-export function EditableSpan({oldTitle, updateItem, disabled}: Props) {
+export function EditableSpan({ oldTitle, updateItem, disabled }: Props) {
   const [editMode, setEditMode] = useState(false)
   const [title, setTitle] = useState(oldTitle)
 
@@ -24,17 +24,17 @@ export function EditableSpan({oldTitle, updateItem, disabled}: Props) {
     setEditMode(true)
   }
 
-  const deactivateEditModeHandler = () => {   
+  const deactivateEditModeHandler = () => {
     if (title.length < 1) {
-      dispatch(setAppErrorAC('The Title field is required'));
+      dispatch(setAppError({error: "The Title field is required"}))
     }
     if (title.length > 100) {
-      dispatch(setAppErrorAC('The Title is too long'));
-    }  
+      dispatch(setAppError({error: "The Title is too long"}))
+    }
     // Проверяем, если оба условия не выполняются
     if (title.length >= 1 && title.length <= 100) {
-      setEditMode(false);
-      updateItem({ title });
+      setEditMode(false)
+      updateItem({ title })
     }
   }
 
@@ -46,17 +46,14 @@ export function EditableSpan({oldTitle, updateItem, disabled}: Props) {
     <>
       {editMode ? (
         <TextField
-          variant='outlined'
+          variant="outlined"
           value={title}
           onBlur={deactivateEditModeHandler}
           onChange={changeTitleHandler}
           autoFocus
         />
       ) : (
-        <span
-          className={disabled ? 'disabled' : ''}
-          onDoubleClick={!disabled ? activateEditModeHandler : undefined}
-        >
+        <span className={disabled ? "disabled" : ""} onDoubleClick={!disabled ? activateEditModeHandler : undefined}>
           {oldTitle}
         </span>
       )}

@@ -3,8 +3,7 @@ import Snackbar, { SnackbarCloseReason } from "@mui/material/Snackbar"
 import Alert from "@mui/material/Alert"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
-import { selectError } from "app/appSelectors"
-import { setAppErrorAC } from "app/bll/app-reducer"
+import { selectError, setAppError } from "app/bll/appSlice"
 
 export const ErrorSnackbar = () => {
   const error = useAppSelector(selectError)
@@ -14,7 +13,7 @@ export const ErrorSnackbar = () => {
     if (reason === "clickaway") {
       return
     }
-    dispatch(setAppErrorAC(null))
+    dispatch(setAppError({error: null}))
   }
 
   const isOpen = error !== null

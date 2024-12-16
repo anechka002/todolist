@@ -1,9 +1,9 @@
 import { List } from "@mui/material"
 import { Task } from "./task/Task"
-import { TodoListDomainType } from "../../../bll/todolist-reducer"
+import { TodoListDomainType } from "../../../bll/todolistsSlice"
 import { useAppSelector } from "common/hooks/useAppSelector"
-import { selectTasks } from "app/appSelectors"
 import { TaskStatuses } from "features/todolistsList/lib/enum"
+import { selectTasks } from "features/todolistsList/bll/tasksSlice"
 
 type Props = {
   todolist: TodoListDomainType
@@ -29,12 +29,12 @@ export const Tasks = ({ todolist, disabled }: Props) => {
 
   return (
     <div>
-      {tasksForTodolist.length === 0 ? (
+      {tasksForTodolist?.length === 0 ? (
         <p>Тасок нет</p>
       ) : (
         <List>
-          {tasksForTodolist.map((el) => (
-            <Task key={el.id} task={el} todolistId={todolist.id} disabled={disabled}/>
+          {tasksForTodolist?.map((el) => (
+            <Task key={el.id} task={el} todolistId={todolist.id} disabled={disabled} />
           ))}
         </List>
       )}

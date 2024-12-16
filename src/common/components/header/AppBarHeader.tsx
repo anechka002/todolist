@@ -6,11 +6,10 @@ import Typography from "@mui/material/Typography"
 import { Switch } from "@mui/material"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
-import { selectIsLoggedIn, selectThemeMode } from "app/appSelectors"
 import { getTheme } from "common/theme/theme"
-import { setAppThemeAC } from "app/bll/app-reducer"
 import { MenuButton } from "../button/MenuButton"
-import { logoutTC } from "features/auth/model/auth-reducer"
+import { logoutTC, selectIsLoggedIn } from "features/auth/model/authSlice"
+import { selectThemeMode, setAppTheme } from "app/bll/appSlice"
 
 export const AppBarHeader = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -21,13 +20,13 @@ export const AppBarHeader = () => {
   const theme = getTheme(themeMode)
 
   const changeModeHandler = () => {
-    dispatch(setAppThemeAC(themeMode === "light" ? "dark" : "light"))
+    dispatch(setAppTheme({theme: themeMode === "light" ? "dark" : "light"}))
   }
 
   const setLogoutHandler = () => {
     dispatch(logoutTC())
   }
-  
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -38,8 +37,12 @@ export const AppBarHeader = () => {
           News
         </Typography>
 
-        {isLoggedIn && <MenuButton onClick={setLogoutHandler} color="inherit">Logout</MenuButton>}
-        
+        {isLoggedIn && (
+          <MenuButton onClick={setLogoutHandler} color="inherit">
+            Logout
+          </MenuButton>
+        )}
+
         <MenuButton background={theme.palette.primary.dark} color="inherit">
           Faq
         </MenuButton>
