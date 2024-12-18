@@ -3,7 +3,14 @@ import { createSlice } from "@reduxjs/toolkit"
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type RequestThemeType = 'light' | 'dark'
 
-const initialState = {
+
+export type AppStateType = {
+  status: RequestStatusType;
+  error: string | null;
+  theme: RequestThemeType;
+};
+
+const initialState: AppStateType = {
   status: 'idle' as RequestStatusType,
   error: null as (string | null),
   theme: 'light' as RequestThemeType

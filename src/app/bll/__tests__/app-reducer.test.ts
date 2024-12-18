@@ -1,6 +1,6 @@
-import { appReducer, InitialStateType, setAppErrorAC, setAppStatusAC, setAppThemeAC } from "../appSlice"
+import { appReducer, AppStateType, setAppError,  setAppStatus, setAppTheme } from "../appSlice"
 
-let startState: InitialStateType
+let startState: AppStateType
 
 beforeEach(() => {
   startState = {
@@ -11,19 +11,19 @@ beforeEach(() => {
 })
 
 test("correct error message should be set", () => {
-  const endState = appReducer(startState, setAppErrorAC("some error"))
+  const endState = appReducer(startState, setAppError({error: "some error"}))
 
   expect(endState.error).toBe("some error")
 })
 
 test("correct status should be set", () => {
-  const endState = appReducer(startState, setAppStatusAC("loading"))
+  const endState = appReducer(startState, setAppStatus({status: "loading"}))
 
   expect(endState.status).toBe("loading")
 })
 
 test("correct theme should be set", () => {
-  const endState = appReducer(startState, setAppThemeAC("dark"))
+  const endState = appReducer(startState, setAppTheme({theme: "dark"}))
 
   expect(endState.theme).toBe("dark")
 })
