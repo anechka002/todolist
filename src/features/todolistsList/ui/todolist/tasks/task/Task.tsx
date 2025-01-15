@@ -1,10 +1,11 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
 import { Delete } from "@mui/icons-material"
-import { removeTaskTC, TaskDomainType, UpdateDomainTaskModelType, updateTaskTC } from "../../../../bll/tasksSlice"
-import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { TaskDomainType } from "../../../../bll/tasksSlice"
 import { TaskStatuses } from "features/todolistsList/lib/enum"
 import { EditableSpan } from "common/components/span/EditableSpan"
+import { useDeleteTaskMutation, useUpdateTaskMutation } from "features/todolistsList/api/tasks-api"
+import { createTaskModel } from "common/utils/createTaskModel"
 
 type Props = {
   todolistId: string
@@ -13,34 +14,23 @@ type Props = {
 }
 
 export const Task = ({ todolistId, task, disabled }: Props) => {
-  // const task = useSelector<AppRootStateType, TaskDomainType>(
-  //   (state) =>
-  //     state.tasks[todolistId].find((el) => el.id === taskId) as TaskDomainType
-  // );
-  const dispatch = useAppDispatch()
+
+  const [removeTask] = useDeleteTaskMutation()
+  const [updateTask] = useUpdateTaskMutation()
 
   const onClickHandler = () => {
-    dispatch(removeTaskTC({ todoListId: todolistId, taskId: task.id }))
+    removeTask({ todoListId: todolistId, taskId: task.id })
   }
 
   const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    let newIsDoneValue = e.currentTarget.checked
-    dispatch(
-      updateTaskTC(todolistId, task.id, {
-        status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New,
-      })
-    )
+    let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
+    const model = createTaskModel(task,  {status})
+    updateTask({todoListId: todolistId, taskId: task.id, model})
   }
 
-  const updateTaskHandler = (domainModel: UpdateDomainTaskModelType) => {
-    const oldTitle = task.title
-    let title
-
-    if (domainModel.title) {
-      title = domainModel.title.length > 100 || domainModel.title.length < 1 ? oldTitle : domainModel.title
-    }
-
-    dispatch(updateTaskTC(todolistId, task.id, { title }))
+  const updateTaskHandler = (title: string) => {
+    const model = createTaskModel(task,  {title})
+    updateTask({todoListId: todolistId, taskId: task.id, model})
   }
 
   return (

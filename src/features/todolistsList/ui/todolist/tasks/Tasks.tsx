@@ -1,9 +1,8 @@
 import { List } from "@mui/material"
 import { Task } from "./task/Task"
 import { TodoListDomainType } from "../../../bll/todolistsSlice"
-import { useAppSelector } from "common/hooks/useAppSelector"
 import { TaskStatuses } from "features/todolistsList/lib/enum"
-import { selectTasks } from "features/todolistsList/bll/tasksSlice"
+import { useGetTasksQuery } from "features/todolistsList/api/tasks-api"
 
 type Props = {
   todolist: TodoListDomainType
@@ -13,18 +12,15 @@ type Props = {
 export const Tasks = ({ todolist, disabled }: Props) => {
   // const { id, title, filter, addedDate, order, entityStatus } = todolist;
 
-  let tasks = useAppSelector(selectTasks)
-  // let tasks = useAppSelector((state) => state.tasks[id]);
+  const {data} = useGetTasksQuery(todolist.id)
 
-  const allTodolistTasks = tasks[todolist.id]
-
-  let tasksForTodolist = allTodolistTasks
+  let tasksForTodolist = data?.items
 
   if (todolist.filter === "active") {
-    tasksForTodolist = tasksForTodolist.filter((el) => el.status === TaskStatuses.New)
+    tasksForTodolist = tasksForTodolist?.filter((el) => el.status === TaskStatuses.New)
   }
   if (todolist.filter === "completed") {
-    tasksForTodolist = tasksForTodolist.filter((el) => el.status === TaskStatuses.Completed)
+    tasksForTodolist = tasksForTodolist?.filter((el) => el.status === TaskStatuses.Completed)
   }
 
   return (

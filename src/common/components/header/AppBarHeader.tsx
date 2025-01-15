@@ -8,12 +8,16 @@ import { useAppSelector } from "common/hooks/useAppSelector"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { getTheme } from "common/theme/theme"
 import { MenuButton } from "../button/MenuButton"
-import { logoutTC, selectIsLoggedIn } from "features/auth/model/authSlice"
-import { selectThemeMode, setAppTheme } from "app/bll/appSlice"
+import { selectIsLoggedIn, selectThemeMode, setAppTheme, setIsLoggedIn } from "app/bll/appSlice"
+import { useLogoutMutation } from "features/auth/api/authApi"
+import { ResultCode } from "features/todolistsList/lib/enum"
+import { clearData } from "features/todolistsList/bll/todolistsSlice"
 
 export const AppBarHeader = () => {
   const themeMode = useAppSelector(selectThemeMode)
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
+
+  const [logout] = useLogoutMutation()
 
   const dispatch = useAppDispatch()
 
@@ -24,7 +28,14 @@ export const AppBarHeader = () => {
   }
 
   const setLogoutHandler = () => {
-    dispatch(logoutTC())
+    logout()
+    .then((res) => {
+      if (res.data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedIn({ isLoggedIn: false }))
+        localStorage.removeItem("sn-token")
+        dispatch(clearData())
+      }
+    })
   }
 
   return (

@@ -6,28 +6,31 @@ import { AppBarHeader, ErrorSnackbar } from "common/components"
 import { useAppSelector } from "common/hooks/useAppSelector"
 import { getTheme } from "common/theme/theme"
 import { Routing } from "common/routing"
-import { useAppDispatch } from "common/hooks"
-import { useEffect } from "react"
-import { initializeAppTC, selectIsInitialized } from "features/auth/model/authSlice"
+import { useEffect, useState } from "react"
 import s from "./App.module.css"
-import { selectStatus, selectThemeMode } from "./bll/appSlice"
+import { selectStatus, selectThemeMode, setIsLoggedIn } from "./bll/appSlice"
+import { useMeQuery } from "features/auth/api/authApi"
+import { useAppDispatch } from "common/hooks"
+import { ResultCode } from "features/todolistsList/lib/enum"
 
 function App() {
-  // debugger
-
   const status = useAppSelector(selectStatus)
   const themeMode = useAppSelector(selectThemeMode)
-  const isInitialized = useAppSelector(selectIsInitialized)
+
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const dispatch = useAppDispatch()
 
-  // const memoizedTheme = useMemo(() => getTheme(themeMode), [themeMode]);
-  const memoizedTheme = getTheme(themeMode)
+  const {data,isLoading} = useMeQuery()
 
   useEffect(() => {
-    // debugger
-    dispatch(initializeAppTC())
-  }, [])
+    if(!isLoading) {
+      setIsInitialized(true)
+      if (data?.resultCode === ResultCode.Success) {
+        dispatch(setIsLoggedIn({ isLoggedIn: true }))
+      }
+    }
+  }, [isLoading, data])
 
   if (!isInitialized) {
     return (
@@ -36,6 +39,8 @@ function App() {
       </div>
     )
   }
+
+  const memoizedTheme = getTheme(themeMode)
 
   return (
     <div className="App">

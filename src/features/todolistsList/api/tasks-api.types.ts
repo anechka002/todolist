@@ -1,3 +1,4 @@
+import { TaskDomainType } from '../bll/tasksSlice';
 import { TaskPriorities, TaskStatuses } from '../lib/enum/enums';
 
 export type TaskType = {
@@ -24,4 +25,9 @@ export type GetTasksResponseType = {
   error: string | null;
   totalCount: number;
   items: TaskType[];
+};
+export type GetTasksResponse = {
+  error: string | null;
+  totalCount: number;
+  items: TaskDomainType [];
 };

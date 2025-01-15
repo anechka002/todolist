@@ -1,4 +1,4 @@
-import { todoListsAPI } from "../api/todolists-api"
+import { _todoListsAPI } from "../api/todolists-api"
 import { RequestStatusType, setAppStatus } from "../../../app/bll/appSlice"
 import { ResultCode } from "../lib/enum/enums"
 import { TodoListType } from "../api/todolists-api.types"
@@ -77,7 +77,7 @@ export const {selectTodolists} = todolistsSlice.selectors
 // thunks
 export const getTodosTC = (): AppThunkType => (dispatch) => {
   dispatch(setAppStatus({ status: "loading" }))
-  todoListsAPI
+  _todoListsAPI
     .getTodoLists()
     .then((res) => {
       dispatch(setAppStatus({ status: "succeeded" }))
@@ -98,7 +98,7 @@ export const removeTodoListTC =
     dispatch(setAppStatus({ status: "loading" }))
     dispatch(changeTodoListEntityStatus({ id: todolistId, entityStatus: "loading" }))
 
-    todoListsAPI
+    _todoListsAPI
       .deleteTodoList(todolistId)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
@@ -121,7 +121,7 @@ export const addTodoListTC =
   (dispatch) => {
     dispatch(setAppStatus({ status: "loading" }))
 
-    todoListsAPI
+    _todoListsAPI
       .createTodoLists(title)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
@@ -142,7 +142,7 @@ export const updateTodoListTC =
     dispatch(setAppStatus({ status: "loading" }))
     dispatch(changeTodoListEntityStatus({ id: todolistId, entityStatus: "loading" }))
 
-    todoListsAPI
+    _todoListsAPI
       .updateTodoList(todolistId, title)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {

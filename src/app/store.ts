@@ -2,9 +2,11 @@ import { Action, combineReducers, compose, legacy_createStore as createStore } f
 import { ThunkAction, ThunkDispatch } from "redux-thunk"
 import { tasksReducer, tasksSlice } from "../features/todolistsList/bll/tasksSlice"
 import { todoListsReducer, todolistsSlice } from "../features/todolistsList/bll/todolistsSlice"
-import { authReducer, authSlice } from "features/auth/model/authSlice"
 import { configureStore } from "@reduxjs/toolkit"
 import { appReducer, appSlice } from "./bll/appSlice"
+import { baseApi } from "./baseApi"
+import { setupListeners } from "@reduxjs/toolkit/query"
+import { useDispatch } from "react-redux"
 
 declare global {
   interface Window {
@@ -25,10 +27,17 @@ export const store = configureStore({
   reducer: {
     [tasksSlice.name]: tasksReducer,
     [todolistsSlice.name]: todoListsReducer,
+
     [appSlice.name]: appReducer,
-    [authSlice.name]: authReducer,
-  } 
+    [baseApi.reducerPath]: baseApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(baseApi.middleware),
 })
+
+setupListeners(store.dispatch)
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>

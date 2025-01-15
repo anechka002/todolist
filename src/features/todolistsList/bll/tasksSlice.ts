@@ -1,6 +1,6 @@
 import { ResultCode, TaskPriorities, TaskStatuses } from "../lib/enum/enums"
 import { AppRootStateType, AppThunkType, RootState } from "../../../app/store"
-import { tasksAPI } from "../api/tasks-api"
+import { _tasksAPI } from "../api/tasks-api"
 import { TaskType, UpdateTaskModelType } from "../api/tasks-api.types"
 import { handleServerAppError, handleServerNetworkError } from "common/utils"
 import { createSlice, current } from "@reduxjs/toolkit"
@@ -90,7 +90,7 @@ export const getTasksTC =
   (dispatch) => {
     dispatch(setAppStatus({status: "loading"}))
 
-    tasksAPI
+    _tasksAPI
       .getTasks(todoListId)
       .then((res) => {
         dispatch(setAppStatus({status: "succeeded"}))
@@ -106,7 +106,7 @@ export const addTaskTC =
   (dispatch) => {
     dispatch(setAppStatus({status: "loading"}))
 
-    tasksAPI
+    _tasksAPI
       .createTask(arg)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
@@ -127,7 +127,7 @@ export const removeTaskTC =
     dispatch(setAppStatus({status: "loading"}))
     dispatch(changeTaskEntityStatus({ todoListId: arg.todoListId, taskId: arg.taskId, entityStatus: "loading" }))
 
-    tasksAPI
+    _tasksAPI
       .deleteTask(arg)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {
@@ -167,7 +167,7 @@ export const updateTaskTC =
     dispatch(setAppStatus({status: "loading"}))
     dispatch(changeTaskEntityStatus({ todoListId, taskId: id, entityStatus: "loading" }))
 
-    tasksAPI
+    _tasksAPI
       .updateTask(todoListId, id, apiModel)
       .then((res) => {
         if (res.data.resultCode === ResultCode.Success) {

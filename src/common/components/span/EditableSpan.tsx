@@ -1,13 +1,12 @@
 import { TextField } from "@mui/material"
 import React, { ChangeEvent, useState } from "react"
 import "../../../app/App.css"
-import { UpdateDomainTaskModelType } from "features/todolistsList/bll/tasksSlice"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { setAppError } from "app/bll/appSlice"
 
 type Props = {
   oldTitle: string
-  updateItem: (domainModel: UpdateDomainTaskModelType) => void
+  updateItem: (title: string) => void
   disabled?: boolean
 }
 
@@ -34,7 +33,7 @@ export function EditableSpan({ oldTitle, updateItem, disabled }: Props) {
     // Проверяем, если оба условия не выполняются
     if (title.length >= 1 && title.length <= 100) {
       setEditMode(false)
-      updateItem({ title })
+      updateItem(title)
     }
   }
 
