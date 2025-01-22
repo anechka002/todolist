@@ -13,7 +13,7 @@ export const TodoList = ({ todolist }: Props) => {
   const { id, title, filter, addedDate, order, entityStatus } = todolist
 
   const [addTask, {isLoading, isError}] = useCreateTaskMutation()
-  console.log(isLoading, isError)
+  // console.log(isLoading, isError)
 
   const addTaskHandler = (newTitle: string) => {
     addTask({ todoListId: id, title: newTitle })

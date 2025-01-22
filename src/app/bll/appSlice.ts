@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit"
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type RequestThemeType = 'light' | 'dark'
@@ -36,6 +36,28 @@ export const appSlice = createSlice({
         state.isLoggedIn = action.payload.isLoggedIn
       }),
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      // .addMatcher(
+      //   (action) => {
+      //   // type predicate function
+      //     return action.type.endsWith('/pending')
+      //   },
+      //   (state, action) => {
+      //     // change state
+      //     state.status = 'loading'
+      //   }
+      // )
+      .addMatcher(isPending, state => {
+        state.status = 'loading'
+      })
+      .addMatcher(isFulfilled, state => {
+        state.status = 'succeeded'
+      })
+      .addMatcher(isRejected, state => {
+        state.status = 'failed'
+      })
   },
   selectors: {
     selectError: state => state.error,
