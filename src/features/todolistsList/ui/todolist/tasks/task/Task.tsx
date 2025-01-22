@@ -4,8 +4,10 @@ import { Delete } from "@mui/icons-material"
 import { TaskDomainType } from "../../../../bll/tasksSlice"
 import { TaskStatuses } from "features/todolistsList/lib/enum"
 import { EditableSpan } from "common/components/span/EditableSpan"
-import { useDeleteTaskMutation, useUpdateTaskMutation } from "features/todolistsList/api/tasks-api"
+import { tasksAPI, useDeleteTaskMutation, useUpdateTaskMutation } from "features/todolistsList/api/tasks-api"
 import { createTaskModel } from "common/utils/createTaskModel"
+import { RequestStatusType } from "app/bll/appSlice"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
 
 type Props = {
   todolistId: string
@@ -18,8 +20,29 @@ export const Task = ({ todolistId, task, disabled }: Props) => {
   const [removeTask] = useDeleteTaskMutation()
   const [updateTask] = useUpdateTaskMutation()
 
-  const onClickHandler = () => {
-    removeTask({ todoListId: todolistId, taskId: task.id })
+  const dispatch = useAppDispatch()
+
+  const updateQueryData = ( status: RequestStatusType) => {
+    dispatch(
+      tasksAPI.util.updateQueryData('getTasks', todolistId, (draftTasks) => {
+        const taskToUpdate = draftTasks.items.find((el) => el.id === task.id)
+        if(taskToUpdate) {
+          taskToUpdate.entityStatus = status
+        }
+    }))
+  }
+
+  const onClickRemoveHandler = () => {
+    updateQueryData('loading') // синхронно
+    removeTask({ todoListId: todolistId, taskId: task.id }) // асинхронно
+    .unwrap()
+    .then(() => {
+      // debugger
+    })
+    .catch(() => {
+      // debugger
+      updateQueryData('failed') // синхронно
+    })
   }
 
   const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +69,7 @@ export const Task = ({ todolistId, task, disabled }: Props) => {
         updateItem={updateTaskHandler}
         disabled={disabled || task.entityStatus === "loading"}
       />
-      <IconButton onClick={onClickHandler} disabled={disabled || task.entityStatus === "loading"}>
+      <IconButton onClick={onClickRemoveHandler} disabled={disabled || task.entityStatus === "loading"}>
         <Delete />
       </IconButton>
     </div>

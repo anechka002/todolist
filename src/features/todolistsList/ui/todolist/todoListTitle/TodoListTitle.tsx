@@ -2,7 +2,9 @@ import IconButton from "@mui/material/IconButton"
 import { Delete } from "@mui/icons-material"
 import { TodoListDomainType } from "../../../bll/todolistsSlice"
 import { EditableSpan } from "common/components/span/EditableSpan"
-import { useDeleteTodoListMutation, useUpdateTodoListMutation } from "features/todolistsList/api/todolists-api"
+import { todoListsAPI, useDeleteTodoListMutation, useUpdateTodoListMutation } from "features/todolistsList/api/todolists-api"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { RequestStatusType } from "app/bll/appSlice"
 
 type Props = {
   todolist: TodoListDomainType
@@ -14,8 +16,25 @@ export const TodoListTitle = ({ todolist }: Props) => {
   const [deleteTodoList] = useDeleteTodoListMutation()
   const [updateTodoList] = useUpdateTodoListMutation()
 
+  const dispatch = useAppDispatch()
+
+  const updateQueryData = (status: RequestStatusType) => {
+    dispatch(
+      todoListsAPI.util.updateQueryData('getTodoLists', undefined, state => {
+      const todolist = state.find((tl) => tl.id === id)
+        if (todolist) {
+          todolist.entityStatus = status
+        }
+    }))
+  }
+
   const removeTodoListHandler = () => {
+    updateQueryData('loading')
     deleteTodoList(id)
+    .unwrap()
+    .catch(() => {
+      updateQueryData('failed')
+    })
   }
 
   const updateTodoListHandler = (title: string) => {
