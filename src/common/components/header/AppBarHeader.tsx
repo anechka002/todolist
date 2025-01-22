@@ -11,7 +11,7 @@ import { MenuButton } from "../button/MenuButton"
 import { selectIsLoggedIn, selectThemeMode, setAppTheme, setIsLoggedIn } from "app/bll/appSlice"
 import { useLogoutMutation } from "features/auth/api/authApi"
 import { ResultCode } from "features/todolistsList/lib/enum"
-import { clearData } from "features/todolistsList/bll/todolistsSlice"
+import { baseApi } from "app/baseApi"
 
 export const AppBarHeader = () => {
   const themeMode = useAppSelector(selectThemeMode)
@@ -33,8 +33,11 @@ export const AppBarHeader = () => {
       if (res.data?.resultCode === ResultCode.Success) {
         dispatch(setIsLoggedIn({ isLoggedIn: false }))
         localStorage.removeItem("sn-token")
-        dispatch(clearData())
+        // dispatch(baseApi.util.resetApiState()) // нужно использовать с осторожностью, т.к. он зачищает абсолютно все (все данные, состояния загрузки и ошибки)
       }
+    })
+    .then(() => {
+      dispatch(baseApi.util.invalidateTags(['Task', 'Todolist']))
     })
   }
 
