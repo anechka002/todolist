@@ -1,6 +1,5 @@
-import { ResultCode } from 'features/todolistsList/lib/enum';
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { setAppError } from "./bll/appSlice"
+import { handleError } from 'common/utils/handleError';
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
@@ -16,37 +15,7 @@ export const baseApi = createApi({
       },
     })(args, api, extraOptions)
 
-    // debugger
-
-    // 1. Global query errors
-    if(result.error) {
-      // debugger
-      if(result.error.status === 'FETCH_ERROR') {
-        api.dispatch(setAppError({error: result.error.error}))
-      }
-      if(result.error.status === 'PARSING_ERROR') {
-        api.dispatch(setAppError({error: result.error.error}))
-      }
-      if(result.error.status === 'CUSTOM_ERROR') {
-        api.dispatch(setAppError({error: result.error.error}))
-      }
-      if(result.error.status === 400) {
-        api.dispatch(setAppError({error: (result.error.data as {message: string}).message}))
-      }
-      if (result.error.status === 403) {
-        api.dispatch(setAppError({ error: '403 Forbidden Error. Check API-KEY' }))
-      }
-      if (result.error.status === 500) {
-        api.dispatch(setAppError({ error: (result.error.data as {message: string}).message }))
-      }
-    }
-    
-    // 2. Result code errors
-    if ((result.data as {resultCode: ResultCode}).resultCode === ResultCode.Error) {
-      const messages = (result.data as {messages: string[]}).messages
-      const error = messages.length ? messages[0] : 'Some error occurred'
-      api.dispatch(setAppError({error: error}))
-    }
+    handleError(api, result)
 
     return result
   },
