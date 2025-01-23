@@ -3,7 +3,7 @@ import {
   FetchBaseQueryError,
   FetchBaseQueryMeta,
   QueryReturnValue,
-} from '@reduxjs/toolkit/dist/query/react'
+} from '@reduxjs/toolkit/query/react'
 import { setAppError } from 'app/bll/appSlice'
 import { ResultCode } from 'features/todolistsList/lib/enum'
 
@@ -11,7 +11,7 @@ export const handleError = (
   api: BaseQueryApi,
   result: QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
 ) => {
-  
+
   let error = 'Some error occurred'
 
   if (result.error) {

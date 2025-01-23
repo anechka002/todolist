@@ -1,7 +1,5 @@
 import { Action, combineReducers, compose, legacy_createStore as createStore } from "redux"
 import { ThunkAction, ThunkDispatch } from "redux-thunk"
-import { tasksReducer, tasksSlice } from "../features/todolistsList/bll/tasksSlice"
-import { todoListsReducer, todolistsSlice } from "../features/todolistsList/bll/todolistsSlice"
 import { configureStore } from "@reduxjs/toolkit"
 import { appReducer, appSlice } from "./bll/appSlice"
 import { baseApi } from "./baseApi"
@@ -25,9 +23,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose 
 // непосредственно создаём store
 export const store = configureStore({ 
   reducer: {
-    // [tasksSlice.name]: tasksReducer,
-    // [todolistsSlice.name]: todoListsReducer,
-
     [appSlice.name]: appReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },

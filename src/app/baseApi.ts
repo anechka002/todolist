@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { handleError } from 'common/utils/handleError';
+import { handleError } from "common/utils"
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',

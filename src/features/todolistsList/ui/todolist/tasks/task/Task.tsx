@@ -1,13 +1,13 @@
 import React, { ChangeEvent } from "react"
 import { Checkbox, IconButton } from "@mui/material"
 import { Delete } from "@mui/icons-material"
-import { TaskDomainType } from "../../../../bll/tasksSlice"
 import { TaskStatuses } from "features/todolistsList/lib/enum"
 import { EditableSpan } from "common/components/span/EditableSpan"
 import { tasksAPI, useDeleteTaskMutation, useUpdateTaskMutation } from "features/todolistsList/api/tasks-api"
 import { createTaskModel } from "common/utils/createTaskModel"
 import { RequestStatusType } from "app/bll/appSlice"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { TaskDomainType } from "features/todolistsList/lib/types/types"
 
 type Props = {
   todolistId: string

@@ -1,5 +1,5 @@
-import { TaskDomainType } from '../bll/tasksSlice';
 import { TaskPriorities, TaskStatuses } from '../lib/enum/enums';
+import { TaskDomainType } from '../lib/types/types';
 
 export type TaskType = {
   description: string | null;
