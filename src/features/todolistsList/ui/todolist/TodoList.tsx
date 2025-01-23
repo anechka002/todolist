@@ -1,9 +1,9 @@
-import { TodoListDomainType } from "../../bll/todolistsSlice"
 import { TodoListTitle } from "./todoListTitle/TodoListTitle"
 import { FilterTasksButton } from "./filterTasksButton/FilterTasksButton"
 import { Tasks } from "./tasks/Tasks"
 import { AddItemForm } from "common/components/itemForm/AddItemForm"
 import { useCreateTaskMutation } from "features/todolistsList/api/tasks-api"
+import { TodoListDomainType } from "features/todolistsList/lib/types/types"
 
 type Props = {
   todolist: TodoListDomainType

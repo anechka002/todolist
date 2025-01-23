@@ -6,6 +6,7 @@ import { AppThunkType } from "app/store"
 import { handleServerAppError, handleServerNetworkError } from "common/utils"
 import { createSlice } from "@reduxjs/toolkit"
 import { getTasksTC } from "./tasksSlice"
+import { FilterValues, TodoListDomainType } from "../lib/types/types"
 
 const initialState: Array<TodoListDomainType> = []
 
@@ -39,7 +40,7 @@ export const todolistsSlice = createSlice({
           todolist.title = action.payload.title
         }
       }),
-      changeTodoListFilter: create.reducer<{ todolistId: string; filter: FilterValuesType }>((state, action) => {
+      changeTodoListFilter: create.reducer<{ todolistId: string; filter: FilterValues }>((state, action) => {
         const todolist = state.find((tl) => tl.id === action.payload.todolistId)
         if (todolist) {
           todolist.filter = action.payload.filter
@@ -161,9 +162,5 @@ export const updateTodoListTC =
       })
   }
 
-// types
-export type FilterValuesType = "all" | "active" | "completed"
-export type TodoListDomainType = TodoListType & {
-  filter: FilterValuesType
-  entityStatus: RequestStatusType
-}
+
+

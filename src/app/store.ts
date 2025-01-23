@@ -25,8 +25,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose 
 // непосредственно создаём store
 export const store = configureStore({ 
   reducer: {
-    [tasksSlice.name]: tasksReducer,
-    [todolistsSlice.name]: todoListsReducer,
+    // [tasksSlice.name]: tasksReducer,
+    // [todolistsSlice.name]: todoListsReducer,
 
     [appSlice.name]: appReducer,
     [baseApi.reducerPath]: baseApi.reducer,

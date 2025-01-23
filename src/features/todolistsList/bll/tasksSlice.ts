@@ -145,45 +145,45 @@ export const removeTaskTC =
       })
   }
 
-export const updateTaskTC =
-  (todoListId: string, id: string, domainModel: UpdateDomainTaskModelType): AppThunkType =>
-  (dispatch, getState: () => RootState) => {
-    const state = getState()
-    const task = state.tasks[todoListId].find((task) => task.id === id)
-    if (!task) {
-      console.warn("task not found in the state")
-      return
-    }
-    const apiModel: UpdateTaskModelType = {
-      status: task.status,
-      title: task.title,
-      description: task.description,
-      priority: task.priority,
-      startDate: task.startDate,
-      deadline: task.deadline,
-      ...domainModel,
-    }
+// export const updateTaskTC =
+//   (todoListId: string, id: string, domainModel: UpdateDomainTaskModelType): AppThunkType =>
+//   (dispatch, getState: () => RootState) => {
+//     const state = getState()
+    // const task = state.tasks[todoListId].find((task) => task.id === id)
+    // if (!task) {
+    //   console.warn("task not found in the state")
+    //   return
+    // }
+    // const apiModel: UpdateTaskModelType = {
+    //   status: task.status,
+    //   title: task.title,
+    //   description: task.description,
+    //   priority: task.priority,
+    //   startDate: task.startDate,
+    //   deadline: task.deadline,
+    //   ...domainModel,
+    // }
 
-    dispatch(setAppStatus({status: "loading"}))
-    dispatch(changeTaskEntityStatus({ todoListId, taskId: id, entityStatus: "loading" }))
+  //   dispatch(setAppStatus({status: "loading"}))
+  //   dispatch(changeTaskEntityStatus({ todoListId, taskId: id, entityStatus: "loading" }))
 
-    _tasksAPI
-      .updateTask(todoListId, id, apiModel)
-      .then((res) => {
-        if (res.data.resultCode === ResultCode.Success) {
-          dispatch(updateTask({todoListId, id, model: domainModel}))
-          dispatch(setAppStatus({status: "succeeded"}))
-        } else {
-          handleServerAppError(res.data, dispatch)
-        }
-      })
-      .catch((err) => {
-        handleServerNetworkError(err, dispatch)
-      })
-      .finally(() => {
-        dispatch(changeTaskEntityStatus({ todoListId, taskId: id, entityStatus: "idle" }))
-      })
-  }
+  //   _tasksAPI
+  //     .updateTask(todoListId, id, apiModel)
+  //     .then((res) => {
+  //       if (res.data.resultCode === ResultCode.Success) {
+  //         dispatch(updateTask({todoListId, id, model: domainModel}))
+  //         dispatch(setAppStatus({status: "succeeded"}))
+  //       } else {
+  //         handleServerAppError(res.data, dispatch)
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       handleServerNetworkError(err, dispatch)
+  //     })
+  //     .finally(() => {
+  //       dispatch(changeTaskEntityStatus({ todoListId, taskId: id, entityStatus: "idle" }))
+  //     })
+  // }
 
 export type UpdateDomainTaskModelType = {
   title?: string

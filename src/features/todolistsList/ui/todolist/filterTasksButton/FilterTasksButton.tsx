@@ -1,10 +1,9 @@
-import { useCallback } from "react"
 import { Box, Button } from "@mui/material"
 import { filterButtonsContainerSx } from "./FilterTasksButton.styles"
 import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { ButtonWithMemo } from "common/components"
-import { FilterValuesType, TodoListDomainType } from "features/todolistsList/bll/todolistsSlice"
 import { todoListsAPI } from "features/todolistsList/api/todolists-api"
+import { FilterValues, TodoListDomainType } from "features/todolistsList/lib/types/types"
 
 type Props = {
   todolist: TodoListDomainType
@@ -15,7 +14,7 @@ export const FilterTasksButton = ({ todolist }: Props) => {
 
   const dispatch = useAppDispatch()
 
-  const changeFilterTasksHandler = (filter: FilterValuesType) => {
+  const changeFilterTasksHandler = (filter: FilterValues) => {
     dispatch(
       todoListsAPI.util.updateQueryData('getTodoLists', undefined, (state) => {
         const todolist = state.find((tl) => tl.id === id)
