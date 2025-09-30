@@ -11,7 +11,6 @@ import { MenuButton } from "../button/MenuButton"
 import { selectIsLoggedIn, selectThemeMode, setAppTheme, setIsLoggedIn } from "app/bll/appSlice"
 import { useLogoutMutation } from "features/auth/api/authApi"
 import { ResultCode } from "features/todolistsList/lib/enum"
-import { todoListsAPI } from "features/todolistsList/api/todolists-api"
 import { baseApi } from "app/baseApi"
 
 export const AppBarHeader = () => {
@@ -49,7 +48,7 @@ export const AppBarHeader = () => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
+          TodoList
         </Typography>
 
         {isLoggedIn && (
@@ -57,10 +56,7 @@ export const AppBarHeader = () => {
             Logout
           </MenuButton>
         )}
-
-        <MenuButton background={theme.palette.primary.dark} color="inherit">
-          Faq
-        </MenuButton>
+        
         <Switch color="default" onChange={changeModeHandler} />
       </Toolbar>
     </AppBar>
